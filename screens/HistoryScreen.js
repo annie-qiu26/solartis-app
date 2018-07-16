@@ -24,12 +24,13 @@ const styles = StyleSheet.create({
   },
 });
 
-class HistoryScreen extends React.Component {
+
+export default class HistoryScreen extends React.Component {
   static navigationOptions = {
     drawerLabel: 'History',
     drawerIcon: ({ tintColor }) => (
       <Image
-        source={require('./images/annie.jpg')}
+        source={require('../assets/images/annie.jpg')}
         style={[styles.tabIcon, {tintColor: tintColor}]}
       />
     ),
@@ -43,5 +44,3 @@ class HistoryScreen extends React.Component {
     );
   }
 }
-
-export default HistoryScreen

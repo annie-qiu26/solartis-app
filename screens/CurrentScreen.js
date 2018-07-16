@@ -24,12 +24,12 @@ const styles = StyleSheet.create({
   },
 });
 
-class ChatScreen extends React.Component {
+export default class CurrentScreen extends React.Component {
   static navigationOptions = {
-    drawerLabel: 'Chat',
+    drawerLabel: 'Current',
     drawerIcon: ({ tintColor }) => (
       <Image
-        source={require('./images/annie.jpg')}
+        source={require('../assets/images/annie.jpg')}
         style={[styles.tabIcon, {tintColor: tintColor}]}
       />
     ),
@@ -38,10 +38,8 @@ class ChatScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Hi Annie from the chat screen</Text>
+        <Text>Hi Annie from the current plans screen</Text>
       </View>
     );
   }
 }
-
-export default ChatScreen

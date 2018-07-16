@@ -2,27 +2,8 @@ import React from 'react';
 import { Button, Image, Text, Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
-import { createDrawerNavigator } from 'react-navigation'; //side menu navigator
 
-
-import HomeScreen from 'drawer-screens/homescreen';
-import NewScreen from 'drawer-screens/newscreen';
-import CurrentScreen from 'drawer-screens/currentscreen';
-import HistoryScreen from 'drawer-screens/historyscreen';
-import ChatScreen from 'drawer-screens/chatscreen';
-import FriendScreen from 'drawer-screens/friendscreen';
-
-class AnnieTestingScreen extends React.Component {
-  static navigationOptions = {
-    drawerLabel: 'Home',
-    drawerIcon: ({ tintColor }) => (
-      <Image
-        source={require('drawer-screens/images/annie.jpg')}
-        style={[styles.tabIcon, {tintColor: tintColor}]}
-      />
-    ),
-  };
-
+export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
   };
@@ -77,30 +58,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-  },
-});
-
-
-const MyApp = createDrawerNavigator({
-  Home: {
-    screen: HomeScreen,
-  },
-  AnnieTesting: {
-    screen: AnnieTestingScreen,
-  },
-  New: {
-    screen: NewScreen,
-  },
-  Current: {
-    screen: CurrentScreen,
-  },
-  History: {
-    screen: HistoryScreen,
-  },
-  Chat: {
-    screen: ChatScreen,
-  },
-  Friend: {
-    screen: FriendScreen,
   },
 });

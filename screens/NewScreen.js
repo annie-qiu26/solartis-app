@@ -24,12 +24,12 @@ const styles = StyleSheet.create({
   },
 });
 
-class CurrentScreen extends React.Component {
+export default class NewScreen extends React.Component {
   static navigationOptions = {
-    drawerLabel: 'Current',
+    drawerLabel: 'New',
     drawerIcon: ({ tintColor }) => (
       <Image
-        source={require('./images/annie.jpg')}
+        source={require('../assets/images/annie.jpg')}
         style={[styles.tabIcon, {tintColor: tintColor}]}
       />
     ),
@@ -38,10 +38,9 @@ class CurrentScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Hi Annie from the current plans screen</Text>
+        <Text>Hi Annie we are neewww</Text>
       </View>
     );
   }
 }
 
-export default CurrentScreen

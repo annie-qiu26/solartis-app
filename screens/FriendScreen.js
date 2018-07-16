@@ -24,12 +24,12 @@ const styles = StyleSheet.create({
   },
 });
 
-class NewScreen extends React.Component {
+export default class FriendScreen extends React.Component {
   static navigationOptions = {
-    drawerLabel: 'New',
+    drawerLabel: 'Friend',
     drawerIcon: ({ tintColor }) => (
       <Image
-        source={require('./images/annie.jpg')}
+        source={require('../assets/images/annie.jpg')}
         style={[styles.tabIcon, {tintColor: tintColor}]}
       />
     ),
@@ -38,10 +38,8 @@ class NewScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Hi Annie we are neewww</Text>
+        <Text>Hi Annie from your FRIENDS</Text>
       </View>
     );
   }
 }
-
-export default NewScreen
