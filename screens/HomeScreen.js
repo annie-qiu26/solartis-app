@@ -3,15 +3,16 @@ import {
   StyleSheet,
   Text,
   Image,
+  ImageBackground,
   View
 } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: 'transparent',
   },
   welcome: {
     fontSize: 20,
@@ -22,6 +23,12 @@ const styles = StyleSheet.create({
     width: 16,
     height: 16,
   },
+  backgroundImage: {
+    flex: 1,
+    width: null,
+    height: null,
+    resizeMode: 'cover',
+  }
 });
 
 export default class HomeScreen extends React.Component {
@@ -29,17 +36,46 @@ export default class HomeScreen extends React.Component {
     drawerLabel: 'Home',
     drawerIcon: ({ tintColor }) => (
       <Image
-        source={require('../assets/images/annie.jpg')}
+        source={require('../assets/images/annie.png')}
         style={[styles.tabIcon, {tintColor: tintColor}]}
       />
     ),
   };
 
   render() {
+    //const resizeMode = 'cover';
+    const text1 = "It's time for a cray vacay!";
+    const text2 = "Swipe left to start planning your adventures";
+
     return (
-      <View style={styles.container}>
-        <Text>Hi Annie from the home screen</Text>
-      </View>
+      <ImageBackground source={require('../assets/images/hotballoons.jpg')}
+        imageStyle={{resizeMode: 'stretch'}}
+        style={styles.container}
+      >
+        <View style={styles.container}>
+          <Text
+            style={{
+              textAlign: 'center',
+              fontSize: 40,
+              color: 'black',
+              paddingBottom: 2,
+            }}
+          >
+            {text1}
+          </Text>
+          <Text
+            style={{
+              textAlign: 'center',
+              fontSize: 30,
+              color: 'white',
+              paddingBottom: 2,
+            }}
+          >
+            {text2}
+          </Text>
+        </View>
+      </ImageBackground>
     );
   }
+
 }

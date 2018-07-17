@@ -24,7 +24,7 @@ export default class TestScreen extends React.Component {
     drawerLabel: 'Testing',
     drawerIcon: ({ tintColor }) => (
       <Image
-        source={require('../assets/images/annie.jpg')}
+        source={require('../assets/images/annie.png')}
         style={[styles.tabIcon, {tintColor: tintColor}]}
       />
     ),
