@@ -6,6 +6,8 @@ import {
   View
 } from 'react-native';
 
+import ChatBot from 'react-native-chatbot';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -24,6 +26,19 @@ const styles = StyleSheet.create({
   },
 });
 
+const steps = [
+  {
+    id: '0',
+    message: 'Welcome to react chatbot!',
+    trigger: '1',
+  },
+  {
+    id: '1',
+    message: 'Bye!',
+    end: true,
+  },
+];
+
 export default class ChatScreen extends React.Component {
   static navigationOptions = {
     drawerLabel: 'Chat',
@@ -37,9 +52,7 @@ export default class ChatScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Hi Annie from the chat screen</Text>
-      </View>
+      <ChatBot steps={steps} />
     );
   }
 }
