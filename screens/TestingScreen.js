@@ -35,17 +35,7 @@ export default class TestScreen extends React.Component {
     this.state = {
       loading: false,
       URI: "https://travelapihk.solartis.net/DroolsV4_2/DroolsService/FireEventV2",
-      ACCESS_TOKEN: "TAVADK1UCvGyZnfWaDwFSkYlrT4lj6Cdrm7YNS9Z6KwsJCzTUOw0SR87A2FJ6u8sx4hdOLVm2xXmFp+ZDyFl"
-      + "2DGcej4rJC3jmWzAIZrMaQk4YZqoXuLBwRFSLeXZiEjtQaA945Dmjz7EBSEkuZ4TO3p2XCy8ZJL0pHj3CFhSQdC0fWl+Z1OlpMrowd12"
-      + "KqdX3iGLy/Be2s2FD4E9zVly2H/U9C/YM2Jc5gjdEDBnIeRn2yR82ynSmDL6WZlIPPjkXmihNHiVQrBNK3LiZ9Q12/5+875Y1uxSVH1jmre"
-      + "6NEFAGo70XRkj/SlB1dHJ0HFkDaxf0cS4gAD+BaHIFc7SQDlfNdgeSZYatD2fKGkUcQSYTz5hvgVGIkUdR9TuYtQCzgge/53el0LBFQPkag6"
-      + "NQReu3kvvqlEPL8bJOrtGANQ/O9yRQM32FNk54HhTdNDdnwr5K347R8MuVyzO84TII8pfPS+mdH9qR5q0sh2WODghLzPLOaRW7+Uh4CoGxgX7DCJ"
-      + "sVAV9RczZwD6h3mASvlpvPfSm38iqHQfFko2dR+OXNQLgMxOKxL60ou9fJ5wrMgFlAHv/Q8Of1y2YnAuz8++CUgbUiVbPVs15cWkF132rDdl"
-      + "oP0FlnkMK+WA8Xe/7omhva2QqIGua/GTpIJb9mRWlbJCSLph0HIOZ0eTAyNS/EKMBWXm1oCQZSf5gqLT2WPLDMMda1n6EGGeuFc4LdMRMHHEFx"
-      + "ZmSeFV/7sQVVbuXHFke4F/Rursmlwc2X0xsnt0hhN0Pwo95Mo3VX33HMrEHLNPmiU9vPjssEpXRFY8rYN+xU11lOW0EB2dM4+RaN3yBWat/frr"
-      + "63KFApsOwdpEFLcxssYRXbtJd+gerS0bO2CjUEzNIixAoDGYD58UdmLN9/6v0rcEisuJB9nN+5ZI6TTKxsKxlPFwD2mtxFx7khWEmryuyMT7xoGX"
-      + "18+AF+SDKuexmtMdjv5L8tmhRwJof+sXukNl+YwOXgLyuTyN+gP789Kl7zXPBsu+fsJdIGY1AOhPEFlT9VM02/DPDMqm3uVCQfKrakT6MXDedCZKg"
-      + "Kzc1a908hiBhXL4U6BVY",
+      ACCESS_TOKEN: "Ck3pAnt4t/ag7ULRQNk4zM6Cjh1Q9Bi5nvb2PweE/yGYkWmUDNkW8K3JEFAPDf9F/2saptBtrVKlghUiCoNS4OVZwhGDnmmd44OWJ7/hz1TNZdEPCo6bEThrFT61m3PkaQD6vhwILUp0rzAxLaTUElyTQcn2EKV+V0d0b6JgiULGF7xnRX90u/xaLm1sm9PdFUDuQ0s+Bhhf/75wwH4FrOuWp2zFdIN0FP706fCed0tj20NmTT0HKlNohZSpL3vrMragBxC3NoI4UHK5nj5dDW+AyIKnNiA6u5qE/5xJhyTmRr0p5/gOaDTK9GjCkuy2gDGjmpxiqzrHkDYf0RsLXLDC6FLrJNNbrd8reqwXNAZSCsoZf/nVxWS+OExaBcyU8X3mKd4idEduWZnwFElVCbKXNWKa8S0XRe4LBjip7yHlnwM9PwN/YXU4BhnRfk3ox8LNcYJ9mZxJMxDsxYXUuuz1xauejI059T6q/fFudClOKxtLuwI3Cp8tkkDBqrTsZ4P9E+TTvqAdzNinNdRd+0RF54aMUJ4q6ntJTz/2RqlE/Wjpjregt5akdwkrFr8Vn0A6Sgaku3z3AAowfk+yprPR6tIKsZDH6WGz7/c17vePWli9lYmpOi0Z/KlEnr+gLlC0LkrXsokdRpS9h29o4Qp2BiFZ4O0gxAjWPHSig4Q2wbzq57H22Bw+iCGe6PBywAPoOyVFSUPQlbn3+q3SUeLD7+8Xi7uV0BEe0Grw+shr7fVm7Mdrt80Q3YPRkAiGqVXFTKGXs7tv3ZNzB0xOQXmDs9zLkrtF5FAt/l7TZMP+MYfj7p4N01D9iOYb1pl6dfhf3VPjFE24ddpmQGb9wmpLbu0EyupIOPa16sIOFDmFiiXVxiscyUsrHNLgem5AvGp1mg0Ew/DqnSUHiq9xzAJeSG9l/umzQ6owwwSZ+uPtNrwkbw/gTDkapIA75gMKdUgBLJWcNShyP6jzjg4EDg==",
 
       CONTENT_TYPE: "application/json",
       EVENT_NAME: "CreateCustomer",
@@ -77,12 +67,12 @@ export default class TestScreen extends React.Component {
           "OwnerId": "15",
           "ResponseType": "JSON",
           "RegionCode": "US",
-          "Token": "iMgdpnp436QjuYQ2tn9HU+SgJDsyFW8kDSoLHGwadQKpl/wr4yKoVdsfdsMjkSfJB/FKqjFqrLmebBUqmHM/dVAMv+DDPaXOt/GY7mjWZXGT2z0ArRvyiojuQz8LrhVYihPok4SNftJWQa7rNrqjh5PWJcVbnbLVHo4e9WNp/4X9Sai/5LrKZ1J99H71yIi/9rXsAKhCk5lGzFaO3SXLwJluxpsUM+5MiljDi4NFM+/K0KPeUOuL8R2FZD9RobXBVvR7xPdH1oZ71jBgOmg59/75ugVgJ/35PRXWc1Emi9SPqQHHEmsD4AoH2xj45UGMY3hjx0sz/uABSHKxNwA8DwPTBS7jaN2XqKLCayPsSWHVH04XW+ZeDaw1iRLb/0euQfXT97fiPQgPQSjtDvxif6cFXZQX/BHYIcAUjZtdcuv098quieEPaIWri6DUFEIzf/uRM7R4itGHIU7/B0cMwwQNFhxjtMVAgSBq7Kw4a8kf5s+2XOip5XV3KeT5U4u8HX6/xdKxhpP8gLng6PoGj0MEnSugWYicqO81QJH2UISAaI3iDgNxzCSFmsAChwURz5g/RRmHqLknkxHh4lvFfjQGlTIfdNwW+CwHbg0EQFt/c/4M6CofYIAQVzElcVRih/j88U7EqGr8v1mrTPel1sBXl+auuXSlODNRoeDVogcqA1Fr9504oM1kbCEmrVIqjUxUmK9a8CWsZEjIYiNuY0KncVKuuXSlODNRoeDVogcqA1Foa9LkTsAlC3ItSy+gbt0NdLaJdXbWS8ClBkbddTRCbeWRNMZNDq/vS1JTb8FKCl5OsniK5MZQnMbZdqNHlqbv2WOw2j+jUU0BThnDgEX6XEjSt7SoS1Xd6+F4DyPRZsQbD7XGhOWwTgbKALHDL6LviA3K4dHjVKHv1xOd8L284LsWKpOWqHf8xYqRIiCHZgQEtSRZCdfQPbklkXKGNaTjD",
+          "Token": "Ck3pAnt4t/ag7ULRQNk4zM6Cjh1Q9Bi5nvb2PweE/yGYkWmUDNkW8K3JEFAPDf9F/2saptBtrVKlghUiCoNS4OVZwhGDnmmd44OWJ7/hz1TNZdEPCo6bEThrFT61m3PkaQD6vhwILUp0rzAxLaTUElyTQcn2EKV+V0d0b6JgiULGF7xnRX90u/xaLm1sm9PdFUDuQ0s+Bhhf/75wwH4FrOuWp2zFdIN0FP706fCed0tj20NmTT0HKlNohZSpL3vrMragBxC3NoI4UHK5nj5dDW+AyIKnNiA6u5qE/5xJhyTmRr0p5/gOaDTK9GjCkuy2gDGjmpxiqzrHkDYf0RsLXLDC6FLrJNNbrd8reqwXNAZSCsoZf/nVxWS+OExaBcyU8X3mKd4idEduWZnwFElVCbKXNWKa8S0XRe4LBjip7yHlnwM9PwN/YXU4BhnRfk3ox8LNcYJ9mZxJMxDsxYXUuuz1xauejI059T6q/fFudClOKxtLuwI3Cp8tkkDBqrTsZ4P9E+TTvqAdzNinNdRd+0RF54aMUJ4q6ntJTz/2RqlE/Wjpjregt5akdwkrFr8Vn0A6Sgaku3z3AAowfk+yprPR6tIKsZDH6WGz7/c17vePWli9lYmpOi0Z/KlEnr+gLlC0LkrXsokdRpS9h29o4Qp2BiFZ4O0gxAjWPHSig4Q2wbzq57H22Bw+iCGe6PBywAPoOyVFSUPQlbn3+q3SUeLD7+8Xi7uV0BEe0Grw+shr7fVm7Mdrt80Q3YPRkAiGqVXFTKGXs7tv3ZNzB0xOQXmDs9zLkrtF5FAt/l7TZMP+MYfj7p4N01D9iOYb1pl6dfhf3VPjFE24ddpmQGb9wmpLbu0EyupIOPa16sIOFDmFiiXVxiscyUsrHNLgem5AvGp1mg0Ew/DqnSUHiq9xzAJeSG9l/umzQ6owwwSZ+uPtNrwkbw/gTDkapIA75gMKdUgBLJWcNShyP6jzjg4EDg==",
           "UserName": "travelagent",
           "LanguageCode": "en"
         },
         "CustomerInformation": {
-          "ProductVerID": "706",
+          "ProductVerID": "707",
           "ProductID": "619",
           "ProductNumber": "ILT",
           "ProductVerNumber": "1.0",
@@ -117,16 +107,13 @@ export default class TestScreen extends React.Component {
               "TravelerIndex": "1"
             }
           ]
-        } // Shoud move to a parameter
+        }
       })
-    }).then((response) => {
-        console.log(response);
-        response.json()
-      })
+    }).then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
         this.setState({
-          dataSource: responseJson
+          dataSource: JSON.stringify(responseJson.CustomerInformation),
+          customerReferenceNumber: responseJson.CustomerInformation.CustomerReferenceNumber
         });
       })
   }
