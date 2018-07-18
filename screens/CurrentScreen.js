@@ -40,7 +40,7 @@ export default class CurrentScreen extends React.Component {
       const text1 = "History Screen is just an extension of Current Screen";
       const text2 = "Filtered by time";
     return (
-      <ImageBackground source={require('../assets/images/waters.jpg')}
+      <ImageBackground source={require('../assets/images/palmtrees.jpg')}
         imageStyle={{resizeMode: 'stretch'}}
         style={styles.container}
       >

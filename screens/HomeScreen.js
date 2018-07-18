@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
+  TextInput,
   Image,
   ImageBackground,
   View
@@ -44,8 +45,9 @@ export default class HomeScreen extends React.Component {
 
   render() {
     //const resizeMode = 'cover';
-    const text1 = "It's time for a cray vacay!";
-    const text2 = "Swipe left to start planning your adventures";
+    const text1 = "Welcome Annie!"; //replace annie with name
+    const text2 = "Swipe right to start planning your adventures";
+    let registered = false; //if registered, remove registration prompt
 
     return (
       <ImageBackground source={require('../assets/images/hotballoons.jpg')}
@@ -63,6 +65,18 @@ export default class HomeScreen extends React.Component {
           >
             {text1}
           </Text>
+            <View> 
+              <TextInput
+                style={{height: 40, borderColor: 'gray', backgroundColor:'white', borderWidth: 1, width:160}}
+                onChangeText={(text) => this.setState({text})}
+                value='Registration Email'
+              />
+              <TextInput
+                style={{height: 40, borderColor: 'gray', backgroundColor:'white', borderWidth: 1, width:160}}
+                onChangeText={(text) => this.setState({text})}
+                value='Password'
+              />
+            </View>
           <Text
             style={{
               textAlign: 'center',
