@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   Image,
+  ImageBackground,
   View
 } from 'react-native';
 
@@ -11,7 +12,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: 'transparent',
   },
   welcome: {
     fontSize: 20,
@@ -30,17 +31,43 @@ export default class HistoryScreen extends React.Component {
     drawerLabel: 'History',
     drawerIcon: ({ tintColor }) => (
       <Image
-        source={require('../assets/images/annie.jpg')}
+        source={require('../assets/images/waters.jpg')}
         style={[styles.tabIcon, {tintColor: tintColor}]}
       />
     ),
   };
 
   render() {
+      const text1 = "History Screen is just an extension of Current Screen";
+      const text2 = "Filtered by time";
     return (
-      <View style={styles.container}>
-        <Text>Hi Annie dont you love history</Text>
-      </View>
+      <ImageBackground source={require('../assets/images/waters.jpg')}
+        imageStyle={{resizeMode: 'stretch'}}
+        style={styles.container}
+      >
+        <View style={styles.container}>
+          <Text
+            style={{
+              textAlign: 'center',
+              fontSize: 40,
+              color: 'black',
+              paddingBottom: 2,
+            }}
+          >
+            {text1}
+          </Text>
+          <Text
+            style={{
+              textAlign: 'center',
+              fontSize: 30,
+              color: 'black',
+              paddingBottom: 2,
+            }}
+          >
+            {text2}
+          </Text>
+        </View>
+      </ImageBackground>
     );
   }
 }

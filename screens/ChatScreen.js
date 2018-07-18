@@ -44,7 +44,7 @@ export default class ChatScreen extends React.Component {
     drawerLabel: 'Chat',
     drawerIcon: ({ tintColor }) => (
       <Image
-        source={require('../assets/images/annie.jpg')}
+        source={require('../assets/images/annie.png')}
         style={[styles.tabIcon, {tintColor: tintColor}]}
       />
     ),

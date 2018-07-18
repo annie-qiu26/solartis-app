@@ -9,7 +9,7 @@ import {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
@@ -29,7 +29,7 @@ export default class FriendScreen extends React.Component {
     drawerLabel: 'Friend',
     drawerIcon: ({ tintColor }) => (
       <Image
-        source={require('../assets/images/annie.jpg')}
+        source={require('../assets/images/annie.png')}
         style={[styles.tabIcon, {tintColor: tintColor}]}
       />
     ),
@@ -38,7 +38,9 @@ export default class FriendScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Hi Annie from your FRIENDS</Text>
+        <Text style={{fontSize:30}}>I will work on this if we manage to get our backend this far this week!</Text>
+        <Text style={{fontSize:30}}>Feature 1: Input friend email to share or recommend insurance plan (chosen from your current plans or last viewed plan)</Text>
+        <Text style={{fontSize:30}}>Feature 2: Share your travel stories and pictures (networking element)</Text>
       </View>
     );
   }
