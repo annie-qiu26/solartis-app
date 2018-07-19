@@ -86,7 +86,7 @@ const steps = [
   },
   {
     id: '6',
-    message: 'Do you have an apartment/condo number, that is another line of your address?',
+    message: 'Do you have an apartment/condo number, that is, another line of your address?',
     trigger: 'apartment-option',
   },
   {

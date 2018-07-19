@@ -8,7 +8,9 @@ import {
   ImageBackground,
   View
 } from 'react-native';
+
 import { createStackNavigator } from 'react-navigation'; 
+import CreateCustomerScreen from '../utils/CreateCustomer'; 
 
 const styles = StyleSheet.create({
   container: {
@@ -78,8 +80,8 @@ class CustomerInfo extends React.Component {
             </TextInput>
           </View>
           <View style={{flexDirection:'row'}}>
-            <Text>State Code</Text>
-            <TextInput style={styles.input} onChangeText={(stateCode) => this.setState({stateCode})}>
+            <Text>Zip Code</Text>
+            <TextInput style={styles.input} onChangeText={(zipCode) => this.setState({zipCode})}>
             </TextInput>
           </View>
           <View style={{flexDirection:'row'}}>
@@ -101,7 +103,22 @@ class CustomerInfo extends React.Component {
           color='black'
           title="Submit Information"
           onPress={() =>
-            this.props.navigation.navigate('TravelVariables')}
+            this.props.navigation.navigate(
+              'TravelVariables', 
+              {
+                customer: {
+                  firstName: this.state.firstName,
+                  lastName: this.state.lastName,
+                  dob: this.state.dob,
+                  address: this.state.address,
+                  city: this.state.city,
+                  state: this.state.state,
+                  zipCode: this.state.zipCode,
+                  country: this.state.country,
+                  phone: this.state.phone,
+                  email: this.state.email
+                }
+              })}
           />
         </View>
       </ImageBackground>
@@ -113,6 +130,13 @@ class TravelVariables extends React.Component {
   static navigationOptions = {
     headerTitle: 'Travel Details',
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      customer: this.props.navigation.state.params.customer
+    }
+  }
 
   render() {
     return (
@@ -128,12 +152,12 @@ class TravelVariables extends React.Component {
           </View>
           <View style={{flexDirection:'row'}}>
             <Text>Departure Date</Text>
-            <TextInput style={styles.input} onChangeText={(depart) => this.setState({depart})}>
+            <TextInput style={styles.input} onChangeText={(departDate) => this.setState({departDate})}>
             </TextInput>
           </View>
           <View style={{flexDirection:'row'}}>
             <Text>Return Date</Text>
-            <TextInput style={styles.input} onChangeText={(returnd) => this.setState({returnd})}>
+            <TextInput style={styles.input} onChangeText={(returnDate) => this.setState({returnDate})}>
             </TextInput>
           </View>
           <View style={{flexDirection:'row'}}>
@@ -151,17 +175,22 @@ class TravelVariables extends React.Component {
             <TextInput style={styles.input} onChangeText={(tripCost) => this.setState({tripCost})}>
             </TextInput>
           </View>
-          <View style={{flexDirection:'row'}}>
-            <Text>Deposit Date</Text>
-            <TextInput style={styles.input} onChangeText={(deposit) => this.setState({deposit})}>
-            </TextInput>
-          </View>
         </View>
         <Button
           color='black'
           title="Submit Information"
           onPress={() =>
-            this.props.navigation.navigate('PricingPlan')}
+            this.props.navigation.navigate('PricingPlan', {
+              customer: this.state.customer,
+              plan: {
+                destination: this.state.destination,
+                departDate: this.state.departDate,
+                returnDate: this.state.returnDate,
+                planName: this.state.planName,
+                planType: this.state.planType,
+                tripCost: this.state.tripCost
+              }
+            })}
         />
       </ImageBackground>
     );
@@ -172,6 +201,14 @@ class PricingPlan extends React.Component {
   static navigationOptions = {
     headerTitle: 'Plan Options',
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      customer: this.props.navigation.state.params.customer,
+      plan: this.props.navigation.state.params.plan
+    }
+  }
 
   render() {
     let premium = "137.50";
@@ -230,7 +267,10 @@ class PricingPlan extends React.Component {
           title="Confirm Plan"
           color='black'
           onPress={() =>
-            this.props.navigation.navigate('PaymentConfirmation')}
+            this.props.navigation.navigate('PaymentConfirmation', {
+              customer: this.state.customer,
+              plan: this.state.plan
+            })}
         />
         </View>
     );
@@ -241,6 +281,14 @@ class PaymentConfirmation extends React.Component {
   static navigationOptions = {
     headerTitle: 'Payment Confirmation',
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      customer: this.props.navigation.state.params.customer,
+      plan: this.props.navigation.state.params.plan
+    }
+  }
 
   render() {
     return (
@@ -260,12 +308,12 @@ class PaymentConfirmation extends React.Component {
           </View>
           <View style={{flexDirection:'row'}}>
             <Text>Expiry Month</Text>
-            <TextInput style={styles.input} onChangeText={(expirym) => this.setState({expirym})}>
+            <TextInput style={styles.input} onChangeText={(expiryMonth) => this.setState({expiryMonth})}>
             </TextInput>
           </View>
           <View style={{flexDirection:'row'}}>
             <Text>Expiry Year</Text>
-            <TextInput style={styles.input} onChangeText={(expiryy) => this.setState({expiryy})}>
+            <TextInput style={styles.input} onChangeText={(expiryYear) => this.setState({expiryYear})}>
             </TextInput>
           </View>
           <View style={{flexDirection:'row'}}>
@@ -283,26 +331,19 @@ class PaymentConfirmation extends React.Component {
           title="Make Payment"
           color='black'
           onPress={() =>
-            this.props.navigation.navigate('Success')}
+            this.props.navigation.navigate('CreateCustomer', {
+              customer: this.state.customer,
+              plan: this.state.plan,
+              payment: {
+                card: this.state.card,
+                cvv: this.state.cvv,
+                expiryMonth: this.state.expiryMonth,
+                expiryYear: this.state.expiryYear,
+                payMethod: this.state.payMethod,
+                cardType: this.state.cardType
+              }
+            })}
         />
-      </ImageBackground>
-    );
-  }
-}
-
-class Success extends React.Component {
-  static navigationOptions = {
-    headerTitle: 'Payment Successful',
-  };
-
-  render() {
-    return (
-      <ImageBackground source={require('../assets/images/waters.jpg')}
-        imageStyle={{resizeMode: 'stretch'}}
-        style={styles.container}>
-        <View style={styles.container}>
-          <Text style={{fontSize:80}}>Thank you</Text>
-        </View>
       </ImageBackground>
     );
   }
@@ -321,8 +362,8 @@ const NewScreen = createStackNavigator ({
   PaymentConfirmation: {
     screen: PaymentConfirmation,
   },
-  Success: {
-    screen: Success,
+  CreateCustomer: {
+    screen: CreateCustomerScreen,
   },
 });
 
