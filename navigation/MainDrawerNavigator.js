@@ -7,9 +7,6 @@ import HistoryScreen from '../screens/HistoryScreen';
 import ChatScreen from '../screens/ChatScreen';
 import FriendScreen from '../screens/FriendScreen';
 
-// Delete later
-import TestingScreen from '../screens/TestingScreen';
-
 export default createDrawerNavigator({
   Home: {
     screen: HomeScreen,
@@ -29,7 +26,4 @@ export default createDrawerNavigator({
   Friend: {
     screen: FriendScreen,
   },
-  Testing: {
-    screen: TestingScreen,
-  }
 });
