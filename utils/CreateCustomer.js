@@ -91,7 +91,7 @@ export default class CreateCustomerScreen extends React.Component {
           "TravelerList": [
             {
               "TravelerDOB": this.state.customer.dob,
-              "TravelCost": "2500",
+              "TravelCost": this.state.plan.tripCost,
               "FirstName": this.state.customer.firstName,
               "LastName": this.state.customer.lastName,
               "AddressLine1": this.state.customer.address,

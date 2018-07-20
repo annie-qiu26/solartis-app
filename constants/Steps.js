@@ -134,9 +134,79 @@ export default {
         },
         {
           id: '13',
+          message: 'Hang on, just a couple more questions about your trip!',
+          trigger: '14',
+        },
+        {
+          id: '14',
+          message: 'Where are you planning to go?',
+          trigger: 'destination',
+        },
+        {
+          id: 'destination',
+          user: true,
+          trigger: '15'
+        },
+        {
+          id: '15',
+          message: 'When are you going to depart? (Format: MM/DD/YYYY)',
+          trigger: 'depart_date',
+        },
+        {
+          id: 'depart_date',
+          user: true,
+          trigger: '16',
+        },
+        {
+          id: '16',
+          message: 'When are you planning to return? (Format: MM/DD/YYYY)',
+          trigger: 'return_date',
+        },
+        {
+          id: 'return_date',
+          user: true,
+          trigger: '17',
+        },
+        {
+          id: '17',
+          message: 'What type of plan do you want to get?',
+          trigger: 'plan_type',
+        },
+        {
+          id: 'plan_type',
+          options: [
+            { value: 'single_trip', label: 'Single Trip', trigger: '18' },
+            { value: 'annual', label: 'Annual', trigger: '18' },
+            { value: 'renters', label: 'Renters', trigger: '18' },
+          ],
+        },
+        {
+          id: '18',
+          message: 'Finally, choose the plan you want to get',
+          trigger: 'plan_name',
+        },
+        {
+          id: 'plan_name',
+          options: [
+            { value: 'air_ticket', label: 'Air Ticket Protector', trigger: '19' },
+            { value: 'classic_plus', label: 'Classic Plus', trigger: '19' },
+            { value: 'premier', label: 'Premier', trigger: '19' },
+            { value: 'premier_annual', label: 'Premier Annual', trigger: '19' },
+            { value: 'basic_annual', label: 'Basic Annual', trigger: '19' },
+            { value: 'medical_only', label: 'Medical Only Annual', trigger: '19' },
+            { value: 'renters_collision', label: 'Renter\'s Collision', trigger: '19' },
+          ],
+        },
+        {
+          id: '19',
+          message: 'Thanks for submitting your information! We\'ll calculate your plan immediately. Just hold on tight!',
+          trigger: 'api_call',
+        },
+        {
+          id: 'api_call',
           component: <CustomerInfo />,
           asMessage: true,
-          trigger: 'info',
+          trigger: '20',
         },
         {
           id: 'info',
@@ -152,6 +222,11 @@ export default {
             { value: 'yes', label: 'Yes', trigger: '1' },
             { value: 'no', label: 'No', trigger: 'end' },
           ],
+        },
+        {
+          id: '20',
+          message: 'We hope you have a lovely trip!',
+          trigger: 'end',
         },
         {
           id: 'end',
