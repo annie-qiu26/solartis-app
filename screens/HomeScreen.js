@@ -8,6 +8,21 @@ import {
   View
 } from 'react-native';
 
+import * as firebase from 'firebase';
+
+// Initialize Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyDOMfBkknvIuI9EcABLf_FbGT0im0BfqKo",
+  authDomain: "solartis-app.firebaseapp.com",
+  databaseURL: "https://solartis-app.firebaseio.com",
+  projectId: "solartis-app",
+  storageBucket: "solartis-app.appspot.com",
+  messagingSenderId: "819926642391"
+  //expo guide doesnt have databaseURL, projectId, messagingSenderID
+};
+
+firebase.initializeApp(firebaseConfig);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
