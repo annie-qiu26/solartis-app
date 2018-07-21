@@ -1,5 +1,6 @@
 import React from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
+import SolartisHeader from '../components/SolartisHeader';
 
 import ChatBot from 'react-native-chatbot';
 import Steps from '../constants/Steps';
@@ -20,6 +21,10 @@ const styles = StyleSheet.create({
     width: 16,
     height: 16,
   },
+  screen: {
+    backgroundColor: '#3D6DCC', 
+    paddingTop: 15,
+  },
 });
 
 export default class ChatScreen extends React.Component {
@@ -35,9 +40,14 @@ export default class ChatScreen extends React.Component {
 
   render() {
     return (
-      <ChatBot
-        steps={Steps.steps}
-      />
+      <View style = {styles.screen}> 
+        <SolartisHeader title = 'SolarBot'/>
+        <ChatBot
+          style = {{paddingTop: 20, backgroundColor: '#EEE'}}
+          botBubbleColor='#00008b'
+          steps={Steps}
+        />
+      </View>
     );
   }
 }

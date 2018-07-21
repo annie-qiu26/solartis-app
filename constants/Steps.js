@@ -1,8 +1,7 @@
 import React from 'react';
 import CustomerInfo from '../components/CustomerInfo';
 
-export default {
-    steps: [
+export default [
         {
           id: '0',
           message: 'Hi! Are you looking to buy travel insurance?',
@@ -233,5 +232,4 @@ export default {
           message: 'Thanks for taking the time to meet SolarBot',
           end: true
         }
-    ]
-};
+    ];
