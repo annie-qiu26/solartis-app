@@ -138,66 +138,138 @@ export default [
         },
         {
           id: '14',
+          message: 'Choose the plan you want to get',
+          trigger: 'plan_name',
+        },
+        {
+          id: 'plan_name',
+          options: [
+            { value: 'air_ticket', label: 'Air Ticket Protector', trigger: '22' },
+            { value: 'classic_plus', label: 'Classic Plus', trigger: '22' },
+            { value: 'premier', label: 'Premier', trigger: '22' },
+            { value: 'premier_annual', label: 'Premier Annual', trigger: '21' },
+            { value: 'basic_annual', label: 'Basic Annual', trigger: '21' },
+            { value: 'medical_only', label: 'Medical Only Annual', trigger: '21' },
+            { value: 'renters_collision', label: 'Renter\'s Collision', trigger: '15' },
+          ],
+        },
+        {
+          id: '15',
+          message: 'What day do you want to start this renter\'s policy? (Format: MM/DD/YYYY)',
+          trigger: 'renter_start_date',
+        },
+        {
+          id: 'renter_start_date',
+          user: true,
+          trigger: '16'
+        },
+        {
+          id: '16',
+          message: 'What day do you want to end this renter\'s policy? (Format: MM/DD/YYYY)',
+          trigger: 'renter_end_date',
+        },
+        {
+          id: 'renter_end_date',
+          user: true,
+          trigger: '17'
+        },
+        {
+          id: '17',
+          message: 'What is your renter\'s limit?',
+          trigger: 'renter_limit',
+        },
+        {
+          id: 'renter_limit',
+          user: true,
+          trigger: '18'
+        },
+        {
+          id: '18',
+          message: 'How many cars will be on this renter\'s policy?',
+          trigger: 'renter_cars',
+        },
+        {
+          id: 'renter_cars',
+          user: true,
+          trigger: '19'
+        },
+        {
+          id: '19',
           message: 'Where are you planning to go?',
           trigger: 'destination',
         },
         {
           id: 'destination',
           user: true,
-          trigger: '15'
+          trigger: '20'
         },
         {
-          id: '15',
+          id: '21',
+          message: 'When do you want to start this policy?',
+          trigger: 'effective_date',
+        },
+        {
+          id: 'effective_date',
+          user: true,
+          trigger: '25'
+        },
+        {
+          id: '22',
           message: 'When are you going to depart? (Format: MM/DD/YYYY)',
           trigger: 'depart_date',
         },
         {
           id: 'depart_date',
           user: true,
-          trigger: '16',
+          trigger: '23',
         },
         {
-          id: '16',
+          id: '23',
           message: 'When are you planning to return? (Format: MM/DD/YYYY)',
           trigger: 'return_date',
         },
         {
           id: 'return_date',
           user: true,
-          trigger: '17',
+          trigger: '24',
         },
         {
-          id: '17',
-          message: 'What type of plan do you want to get?',
+          id: '24',
+          message: 'When are you planning to return? (Format: MM/DD/YYYY)',
+          trigger: 'return_date',
+        },
+        {
+          id: 'return_date',
+          user: true,
+          trigger: '27',
+        },
+        {
+          id: '27',
+          message: 'What coverage do you want for trip cancellation?',
+          trigger: 'trip_cancellation',
+        },
+        {
+          id: 'trip_cancellation',
+          options: [
+            { value: 'with', label: 'With trip cancellation', trigger: '19' },
+            { value: 'any', label: 'Trip cancellation for any reason', trigger: '19' },
+          ],
+        },
+        {
+          id: '20',
+          message: 'Lastly, what type of plan do you want to get?',
           trigger: 'plan_type',
         },
         {
           id: 'plan_type',
           options: [
-            { value: 'single_trip', label: 'Single Trip', trigger: '18' },
-            { value: 'annual', label: 'Annual', trigger: '18' },
-            { value: 'renters', label: 'Renters', trigger: '18' },
+            { value: 'single_trip', label: 'Single Trip', trigger: '25' },
+            { value: 'annual', label: 'Annual', trigger: '25' },
+            { value: 'renters', label: 'Renters', trigger: '25' },
           ],
         },
         {
-          id: '18',
-          message: 'Finally, choose the plan you want to get',
-          trigger: 'plan_name',
-        },
-        {
-          id: 'plan_name',
-          options: [
-            { value: 'air_ticket', label: 'Air Ticket Protector', trigger: '19' },
-            { value: 'classic_plus', label: 'Classic Plus', trigger: '19' },
-            { value: 'premier', label: 'Premier', trigger: '19' },
-            { value: 'premier_annual', label: 'Premier Annual', trigger: '19' },
-            { value: 'basic_annual', label: 'Basic Annual', trigger: '19' },
-            { value: 'medical_only', label: 'Medical Only Annual', trigger: '19' },
-            { value: 'renters_collision', label: 'Renter\'s Collision', trigger: '19' },
-          ],
-        },
-        {
-          id: '19',
+          id: '25',
           message: 'Thanks for submitting your information! We\'ll calculate your plan immediately. Just hold on tight!',
           trigger: 'api_call',
         },
@@ -205,7 +277,7 @@ export default [
           id: 'api_call',
           component: <CustomerInfo />,
           asMessage: true,
-          trigger: '20',
+          trigger: '26',
         },
         {
           id: 'info',
@@ -223,7 +295,7 @@ export default [
           ],
         },
         {
-          id: '20',
+          id: '26',
           message: 'We hope you have a lovely trip!',
           trigger: 'end',
         },
