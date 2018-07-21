@@ -26,6 +26,7 @@ export default class CreateCustomerScreen extends React.Component {
 
   constructor(props) {
     super(props);
+    this.stateToCodeMap = this.stateToCodeMap.bind(this);
     this.state = {
         customer: this.props.navigation.state.params.customer,
         plan: this.props.navigation.state.params.plan,
@@ -36,27 +37,88 @@ export default class CreateCustomerScreen extends React.Component {
         ACCESS_TOKEN: "Ck3pAnt4t/ag7ULRQNk4zM6Cjh1Q9Bi5nvb2PweE/yGYkWmUDNkW8K3JEFAPDf9F/2saptBtrVKlghUiCoNS4OVZwhGDnmmd44OWJ7/hz1TNZdEPCo6bEThrFT61m3PkaQD6vhwILUp0rzAxLaTUElyTQcn2EKV+V0d0b6JgiULGF7xnRX90u/xaLm1sm9PdFUDuQ0s+Bhhf/75wwH4FrOuWp2zFdIN0FP706fCed0tj20NmTT0HKlNohZSpL3vrMragBxC3NoI4UHK5nj5dDW+AyIKnNiA6u5qE/5xJhyTmRr0p5/gOaDTK9GjCkuy2gDGjmpxiqzrHkDYf0RsLXLDC6FLrJNNbrd8reqwXNAZSCsoZf/nVxWS+OExaBcyU8X3mKd4idEduWZnwFElVCbKXNWKa8S0XRe4LBjip7yHlnwM9PwN/YXU4BhnRfk3ox8LNcYJ9mZxJMxDsxYXUuuz1xauejI059T6q/fFudClOKxtLuwI3Cp8tkkDBqrTsZ4P9E+TTvqAdzNinNdRd+0RF54aMUJ4q6ntJTz/2RqlE/Wjpjregt5akdwkrFr8Vn0A6Sgaku3z3AAowfk+yprPR6tIKsZDH6WGz7/c17vePWli9lYmpOi0Z/KlEnr+gLlC0LkrXsokdRpS9h29o4Qp2BiFZ4O0gxAjWPHSig4Q2wbzq57H22Bw+iCGe6PBywAPoOyVFSUPQlbn3+q3SUeLD7+8Xi7uV0BEe0Grw+shr7fVm7Mdrt80Q3YPRkAiGqVXFTKGXs7tv3ZNzB0xOQXmDs9zLkrtF5FAt/l7TZMP+MYfj7p4N01D9iOYb1pl6dfhf3VPjFE24ddpmQGb9wmpLbu0EyupIOPa16sIOFDmFiiXVxiscyUsrHNLgem5AvGp1mg0Ew/DqnSUHiq9xzAJeSG9l/umzQ6owwwSZ+uPtNrwkbw/gTDkapIA75gMKdUgBLJWcNShyP6jzjg4EDg==",
 
         CONTENT_TYPE: "application/json",
-        EVENT_NAME: "CreateCustomer",
     }
   }
 
   componentDidMount() {
-    this.retrieveData();
+    if (this.props.createCustomer) {
+        this.retrieveCustomerData();
+    } else {
+        this.retrieveRateData();
+    }
   }
 
   render() {
     return (
-      <Text>{this.state.dataSource}</Text>
+        <View>
+            <Text>{this.state.dataSource}</Text>
+        </View>
     );
   }
 
-  retrieveData() {
+  stateToCodeMap() {
+      let stateCodeMap = {
+        alabama: AL,
+        alaska: AK,
+        arizona: AZ,        
+        arkansas: AR,
+        california: CA,
+        colorado: CO,
+        connecticut: CT,
+        delaware: DE,
+        florida: FL,
+        georgia: GA,
+        hawaii: HI,
+        idaho: ID,   
+        illinois: IL,
+        indiana: IN,
+        iowa: IA,        
+        kansas: KS,        
+        kentucky: KY,        
+        louisiana: LA,        
+        maine: ME,        
+        maryland: MD,        
+        massachusetts: MA,
+        michigan: MI,
+        minnesota: MN,
+        mississippi: MS,
+        missouri: MO,        
+        montana: MT,        
+        nebraska: NE,
+        nevada: NV,
+        'new hampshire': NH,
+        'new jersey': NJ,
+        'new mexico': NM,
+        'new york': NY,
+        'north carolina': NC,
+        'north dakota': ND,
+        ohio: OH,
+        oklahoma: OK,
+        oregon: OR,
+        pennsylvania: PA,
+        'rhode island': RI,
+        'south carolina': SC,
+        'south dakota':	SD,
+        tennessee: TN,
+        texas: TX,
+        utah: UT,
+        vermont: VT,
+        virginia: VA,
+        washington: WA,
+        'west virginia': WV,
+        wisconsin: WI,
+        wyoming: WY
+      };
+      return stateCodeMap[this.state.customer.state.lower()];
+  }
+
+  retrieveCustomerData() {
     fetch(this.state.URI, {
       method: 'POST',
       headers: {
         Token: this.state.ACCESS_TOKEN,
         'Content-Type': this.state.CONTENT_TYPE,
-        EventName: this.state.EVENT_NAME,
+        EventName: "CreateCustomer",
       },
       body: JSON.stringify({
         "ServiceRequestDetail": {
@@ -65,7 +127,7 @@ export default class CreateCustomerScreen extends React.Component {
           "OwnerId": "15",
           "ResponseType": "JSON",
           "RegionCode": "US",
-          "Token": "Ck3pAnt4t/ag7ULRQNk4zM6Cjh1Q9Bi5nvb2PweE/yGYkWmUDNkW8K3JEFAPDf9F/2saptBtrVKlghUiCoNS4OVZwhGDnmmd44OWJ7/hz1TNZdEPCo6bEThrFT61m3PkaQD6vhwILUp0rzAxLaTUElyTQcn2EKV+V0d0b6JgiULGF7xnRX90u/xaLm1sm9PdFUDuQ0s+Bhhf/75wwH4FrOuWp2zFdIN0FP706fCed0tj20NmTT0HKlNohZSpL3vrMragBxC3NoI4UHK5nj5dDW+AyIKnNiA6u5qE/5xJhyTmRr0p5/gOaDTK9GjCkuy2gDGjmpxiqzrHkDYf0RsLXLDC6FLrJNNbrd8reqwXNAZSCsoZf/nVxWS+OExaBcyU8X3mKd4idEduWZnwFElVCbKXNWKa8S0XRe4LBjip7yHlnwM9PwN/YXU4BhnRfk3ox8LNcYJ9mZxJMxDsxYXUuuz1xauejI059T6q/fFudClOKxtLuwI3Cp8tkkDBqrTsZ4P9E+TTvqAdzNinNdRd+0RF54aMUJ4q6ntJTz/2RqlE/Wjpjregt5akdwkrFr8Vn0A6Sgaku3z3AAowfk+yprPR6tIKsZDH6WGz7/c17vePWli9lYmpOi0Z/KlEnr+gLlC0LkrXsokdRpS9h29o4Qp2BiFZ4O0gxAjWPHSig4Q2wbzq57H22Bw+iCGe6PBywAPoOyVFSUPQlbn3+q3SUeLD7+8Xi7uV0BEe0Grw+shr7fVm7Mdrt80Q3YPRkAiGqVXFTKGXs7tv3ZNzB0xOQXmDs9zLkrtF5FAt/l7TZMP+MYfj7p4N01D9iOYb1pl6dfhf3VPjFE24ddpmQGb9wmpLbu0EyupIOPa16sIOFDmFiiXVxiscyUsrHNLgem5AvGp1mg0Ew/DqnSUHiq9xzAJeSG9l/umzQ6owwwSZ+uPtNrwkbw/gTDkapIA75gMKdUgBLJWcNShyP6jzjg4EDg==",
+          "Token": this.state.ACCESS_TOKEN,
           "UserName": "travelagent",
           "LanguageCode": "en"
         },
@@ -97,7 +159,7 @@ export default class CreateCustomerScreen extends React.Component {
               "AddressLine1": this.state.customer.address,
               "City": this.state.customer.city,
               "State": this.state.customer.state,
-              "StateCode": "IL",
+              "StateCode": this.stateToCodeMap(),
               "Country": this.state.customer.country,
               "Zipcode": this.state.customer.zipCode,
               "Phone": this.state.customer.phone,
@@ -114,5 +176,62 @@ export default class CreateCustomerScreen extends React.Component {
           customerReferenceNumber: responseJson.CustomerInformation.CustomerReferenceNumber
         });
       })
+  }
+
+  retrieveRateData() {
+    fetch(this.state.URI, {
+        method: 'POST',
+        headers: {
+          Token: this.state.ACCESS_TOKEN,
+          'Content-Type': this.state.CONTENT_TYPE,
+          EventName: "Pay_Issue",
+        },
+        body: JSON.stringify({
+            "ServiceRequestDetail": {
+                "ServiceRequestVersion": "1.0",
+                "ServiceResponseVersion": "1.0",
+                "OwnerId": "15",
+                "ResponseType": "JSON",
+                "RegionCode": "US",
+                "Token": this.state.ACCESS_TOKEN,
+                "UserName": "travelagent",
+                "LanguageCode": "en"
+            },
+            "QuoteInformation": {
+              "ProductID": "619",
+              "ProductVerID": "706",
+              "ProductNumber": "ILT",
+              "ProductVerNumber": "1.0",
+              "ProducerCode": "86201",
+              "OwnerId": "15",
+              "PlanName": this.state.plan.planName,
+              "PlanCode": "1",
+              "DepartureDate": this.state.plan.departDate,
+              "ReturnDate": this.state.plan.returnDate,
+              "DepositDate": "06/03/2017",
+              "DestinationCountry": this.state.plan.destination,
+              "PolicyEffectiveDate": this.state.plan.effectiveDate != null ? this.state.plan.effectiveDate : "",
+              "RentalStartDate" : this.state.plan.rentalStartDate != null ? this.state.plan.rentalStartDate : "",
+              "RentalEndDate" : this.state.plan.rentalEndDate != null ? this.state.plan.rentalEndDate : "",
+              "RentalLimit" : this.state.plan.rentalLimit,
+              "NumberOfRentalCars" : this.state.plan.rentalCars,
+              "TripCancellationCoverage": this.state.plan.tripCancellation,
+              "StateCode": "GA",
+              "QuoteType": "New Business",
+              "EventName": "InvokeRatingV2",
+              "TravelerList": [
+                {
+                    "TravelerDOB": this.state.customer.dob,
+                    "TravelCost": this.state.plan.tripCost,
+                }
+              ]
+            }
+          })
+      }).then((response) => response.json())
+        .then((responseJson) => {
+          this.setState({
+            dataSource: JSON.stringify(responseJson.PremiumInformation),
+          });
+        })
   }
 }

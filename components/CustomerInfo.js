@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Text } from 'react-native';
+import CreateCustomer from '../utils/CreateCustomer';
 
 export default class CustomerInfo extends React.Component {
     constructor(props) {
