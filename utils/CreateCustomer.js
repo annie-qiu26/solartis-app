@@ -62,6 +62,7 @@ export default class CreateCustomerScreen extends React.Component {
     );
   }
 
+
   stateToCodeMap() {
       let stateCodeMap = {
         alabama: AL,
