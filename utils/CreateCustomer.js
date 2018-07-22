@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, Image } from 'react-native';
+import { StyleSheet, Text, Image, View } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -28,9 +28,8 @@ export default class CreateCustomerScreen extends React.Component {
     super(props);
     this.stateToCodeMap = this.stateToCodeMap.bind(this);
     this.state = {
-        customer: this.props.navigation.state.params.customer,
-        plan: this.props.navigation.state.params.plan,
-        payment: this.props.navigation.state.params.payment,
+        customer: this.props.customer ? this.props.customer : this.props.navigation.state.params.customer,
+        plan: this.props.plan ? this.props.plan : this.props.navigation.state.params.plan,
 
         loading: false,
         URI: "https://travelapihk.solartis.net/DroolsV4_2/DroolsService/FireEventV2",
@@ -42,17 +41,24 @@ export default class CreateCustomerScreen extends React.Component {
 
   componentDidMount() {
     if (this.props.createCustomer) {
+        console.log('Customer');
         this.retrieveCustomerData();
     } else {
+        console.log('Rate');
         this.retrieveRateData();
     }
   }
 
   render() {
+    let premium;
+    if (this.state.dataSource) {
+      premium = this.state.dataSource
+    } else {
+      premium = "0.00"
+    }
     return (
-        <View>
-            <Text>{this.state.dataSource}</Text>
-        </View>
+        <Text>Thanks for your patience! For your plan, {this.state.plan.planName.value}, you're
+        total base premium is: {premium}.</Text>
     );
   }
 
@@ -171,6 +177,7 @@ export default class CreateCustomerScreen extends React.Component {
       })
     }).then((response) => response.json())
       .then((responseJson) => {
+        console.log(responseJson);
         this.setState({
           dataSource: JSON.stringify(responseJson.CustomerInformation),
           customerReferenceNumber: responseJson.CustomerInformation.CustomerReferenceNumber
@@ -179,23 +186,24 @@ export default class CreateCustomerScreen extends React.Component {
   }
 
   retrieveRateData() {
+    console.log(this.state.customer.dob.value);
     fetch(this.state.URI, {
         method: 'POST',
         headers: {
           Token: this.state.ACCESS_TOKEN,
           'Content-Type': this.state.CONTENT_TYPE,
-          EventName: "Pay_Issue",
+          EventName: "InvokeRatingV2",
         },
         body: JSON.stringify({
             "ServiceRequestDetail": {
-                "ServiceRequestVersion": "1.0",
-                "ServiceResponseVersion": "1.0",
-                "OwnerId": "15",
-                "ResponseType": "JSON",
-                "RegionCode": "US",
-                "Token": this.state.ACCESS_TOKEN,
-                "UserName": "travelagent",
-                "LanguageCode": "en"
+              "ServiceRequestVersion": "1.0",
+              "ServiceResponseVersion": "1.0",
+              "OwnerId": "15",
+              "ResponseType": "JSON",
+              "RegionCode": "US",
+              "Token": this.state.ACCESS_TOKEN,
+              "UserName": "travelagent",
+              "LanguageCode": "en"
             },
             "QuoteInformation": {
               "ProductID": "619",
@@ -204,33 +212,34 @@ export default class CreateCustomerScreen extends React.Component {
               "ProductVerNumber": "1.0",
               "ProducerCode": "86201",
               "OwnerId": "15",
-              "PlanName": this.state.plan.planName,
+              "PlanName": this.state.plan.planName ? this.state.plan.planName.value : "",
               "PlanCode": "1",
-              "DepartureDate": this.state.plan.departDate,
-              "ReturnDate": this.state.plan.returnDate,
-              "DepositDate": "06/03/2017",
-              "DestinationCountry": this.state.plan.destination,
-              "PolicyEffectiveDate": this.state.plan.effectiveDate != null ? this.state.plan.effectiveDate : "",
-              "RentalStartDate" : this.state.plan.rentalStartDate != null ? this.state.plan.rentalStartDate : "",
-              "RentalEndDate" : this.state.plan.rentalEndDate != null ? this.state.plan.rentalEndDate : "",
-              "RentalLimit" : this.state.plan.rentalLimit,
-              "NumberOfRentalCars" : this.state.plan.rentalCars,
-              "TripCancellationCoverage": this.state.plan.tripCancellation,
+              "DepartureDate": this.state.plan.departDate ? this.state.plan.departDate.value : "",  
+              "ReturnDate": this.state.plan.returnDate ? this.state.plan.returnDate.value : "",
+              "DepositDate": this.state.plan.depositDate ? this.state.plan.depositDate.value : "",
+              "DestinationCountry": this.state.plan.destination ? this.state.plan.destination.value : "",
+              "PolicyEffectiveDate": this.state.plan.effectiveDate ? this.state.plan.effectiveDate.value : "",
+              "RentalStartDate" : this.state.renterStart ? this.state.renterStart : "",
+              "RentalEndDate" : this.state.renterEnd ? this.state.renterEnd : "",
+              "RentalLimit" : "35000",
+              "NumberOfRentalCars" : this.state.renterCars ? this.state.renterCars : "",
+              "TripCancellationCoverage": "With Trip Cancellation",
               "StateCode": "GA",
               "QuoteType": "New Business",
               "EventName": "InvokeRatingV2",
               "TravelerList": [
                 {
-                    "TravelerDOB": this.state.customer.dob,
-                    "TravelCost": this.state.plan.tripCost,
+                  "TravelerDOB": this.state.customer.dob.value,
+                  "TravelCost": this.state.plan.tripCost ? this.state.plan.tripCost.value : ""
                 }
               ]
             }
           })
       }).then((response) => response.json())
         .then((responseJson) => {
+          console.log(responseJson);
           this.setState({
-            dataSource: JSON.stringify(responseJson.PremiumInformation),
+            dataSource: responseJson.PremiumInformation.TotalBasePremium,
           });
         })
   }

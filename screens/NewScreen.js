@@ -332,6 +332,7 @@ class PaymentConfirmation extends React.Component {
           color='black'
           onPress={() =>
             this.props.navigation.navigate('CreateCustomer', {
+              createCustomer: '1',
               customer: this.state.customer,
               plan: this.state.plan,
               payment: {

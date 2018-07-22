@@ -41,11 +41,11 @@ export default [
         },
         {
           id: '4',
-          message: 'What is your DOB? (Format: MM/DD/YYYY)',
-          trigger: 'birthday',
+          message: 'What is your date of birth? (Format: MM/DD/YYYY)',
+          trigger: 'dob',
         },
         {
-          id: 'birthday',
+          id: 'dob',
           user: true,
           trigger: '5',
         },
@@ -205,7 +205,7 @@ export default [
         },
         {
           id: '21',
-          message: 'When do you want to start this policy?',
+          message: 'When do you want to start this policy? (Format: MM/DD/YYYY)',
           trigger: 'effective_date',
         },
         {
@@ -235,11 +235,11 @@ export default [
         },
         {
           id: '24',
-          message: 'When are you planning to return? (Format: MM/DD/YYYY)',
-          trigger: 'return_date',
+          message: 'How much will this trip cost',
+          trigger: 'trip_cost',
         },
         {
-          id: 'return_date',
+          id: 'trip_cost',
           user: true,
           trigger: '27',
         },
