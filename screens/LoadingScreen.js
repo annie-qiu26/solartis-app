@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 export default class LoadingScreen extends React.Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
-      this.props.navigation.navigate(user ? 'MainScreen' : 'SignInScreen')
+      this.props.navigation.navigate(user ? 'MainDrawerNavigator' : 'SignInScreen')
     })
   }
 

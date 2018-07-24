@@ -35,12 +35,22 @@ const styles = StyleSheet.create({
 });
 
 export default class MainScreen extends React.Component {
+  static navigationOptions = {
+    drawerLabel: 'Current',
+    drawerIcon: ({ tintColor }) => (
+      <Image
+        source={require('../assets/images/annie.png')}
+        style={[styles.tabIcon, {tintColor: tintColor}]}
+      />
+    ),
+  };
+
   state = { currentUser: null}
 
   render() {
     //const resizeMode = 'cover';
     const text1 = "Welcome Annie!"; //replace annie with name
-    const text2 = "Swipe right to start planning your adventures";
+    const text2 = "Testing Swipe Right";
 
     return (
       <ImageBackground source={require('../assets/images/hotballoons.jpg')}

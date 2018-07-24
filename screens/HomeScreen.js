@@ -4,8 +4,9 @@ import { createSwitchNavigator } from 'react-navigation'
 
 import LoadingScreen from './LoadingScreen';
 import SignInScreen from './SignInScreen';
+import ForgotPasswordScreen from './ForgotPasswordScreen';
 import SignUpScreen from './SignUpScreen';
-import MainScreen from './MainScreen';
+import MainDrawerNavigator from '../navigation/MainDrawerNavigator';
 
 const styles = StyleSheet.create({
   container: {
@@ -36,7 +37,8 @@ const HomeScreen = createSwitchNavigator (
     LoadingScreen,
     SignUpScreen,
     SignInScreen,
-    MainScreen
+    ForgotPasswordScreen,
+    MainDrawerNavigator
   },
   {
     initialRouteName: 'LoadingScreen'

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, Button, Image, ImageBackground,View} from 'react-native';
+import { StyleSheet, Text, TextInput, Button, Image, ImageBackground,View, Alert} from 'react-native';
 import CreateCustomerScreen from '../utils/CreateCustomer'; 
 
 import SignUpScreen from './SignUpScreen.js';
+import ForgotPasswordScreen from './ForgotPasswordScreen.js';
 import ChatScreen from './ChatScreen.js';
 
 import * as firebase from 'firebase';
@@ -53,8 +54,8 @@ export default class SignInScreen extends React.Component {
 		          onPress={() => this.props.navigation.navigate('SignUpScreen')}
 		        />
 		        <Button
-		          title="Sign up with Chat Bot"
-		          onPress={() => this.props.navigation.navigate('ChatScreen')}
+		          title="Forgot Password?"
+		          onPress={() => this.props.navigation.navigate('ForgotPasswordScreen')}
 		        />
 	      	</View>
     	)

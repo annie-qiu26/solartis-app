@@ -12,8 +12,6 @@ import {
 
 import { createStackNavigator } from 'react-navigation'; 
 import CreateCustomerScreen from '../utils/CreateCustomer'; 
-import SignInScreen from './SignInScreen';
-import MainScreen from './MainScreen';
 import { NavigationActions } from 'react-navigation';
 import * as firebase from 'firebase';
 

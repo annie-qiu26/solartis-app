@@ -7,7 +7,7 @@ import HistoryScreen from '../screens/HistoryScreen';
 import ChatScreen from '../screens/ChatScreen';
 import FriendScreen from '../screens/FriendScreen';
 
-export default createDrawerNavigator({
+const MainDrawerNavigator = createDrawerNavigator({
   Main: {
     screen: MainScreen,
   },
@@ -27,3 +27,5 @@ export default createDrawerNavigator({
     screen: FriendScreen,
   },
 });
+
+export default MainDrawerNavigator;
