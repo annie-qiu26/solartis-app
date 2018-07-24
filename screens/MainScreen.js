@@ -58,18 +58,6 @@ export default class MainScreen extends React.Component {
           >
             {text1}
           </Text>
-            <View> 
-              <TextInput
-                style={{height: 40, borderColor: 'gray', backgroundColor:'white', borderWidth: 1, width:160}}
-                onChangeText={(text) => this.setState({text})}
-                value='Registration Email'
-              />
-              <TextInput
-                style={{height: 40, borderColor: 'gray', backgroundColor:'white', borderWidth: 1, width:160}}
-                onChangeText={(text) => this.setState({text})}
-                value='Password'
-              />
-            </View>
           <Text
             style={{
               textAlign: 'center',
