@@ -10,15 +10,46 @@ export default class CustomerInfo extends React.Component {
   
     componentWillMount() {
       const { steps } = this.props;
-      const { first_name, last_name } = steps;
+      const { first_name, last_name, dob, address_1, address_2,
+        city, state, zipcode, phone_number, email_address, renter_start_date,
+        renter_end_date, renter_cars, destination, effective_date, depart_date,
+        return_date, plan_type, trip_cancellation, plan_name } = steps;
   
-      this.setState({ first_name, last_name });
+      this.setState({ first_name, last_name, dob, address_1, address_2,
+        city, state, zipcode, phone_number, email_address, renter_start_date,
+        renter_end_date, renter_cars, destination, effective_date, depart_date,
+        return_date, plan_type, trip_cancellation, plan_name });
     }
   
     render() {
-      const { first_name } = this.state;
       return (
-        <Text>{first_name.value}</Text>
+        <CreateCustomer
+            customer = {{
+                firstName: this.state.first_name,
+                lastName: this.state.last_name,
+                dob: this.state.dob,
+                address: this.state.address_1,
+                city: this.state.city,
+                state: this.state.state,
+                zipCode: this.state.zipcode,
+                country: 'United States',
+                phone: this.state.phone_number,
+                email: this.state.email_address
+            }}
+            plan = {{
+                destination: this.state.destination,
+                departDate: this.state.depart_date,
+                returnDate: this.state.return_date,
+                planName: this.state.plan_name,
+                planType: this.state.plan_type,
+                tripCost: this.state.trip_cost,
+                renterStart: this.state.renter_start_date,
+                renterEnd: this.state.renter_end_date, 
+                renterCars: this.state.renter_cars,
+                effectiveDate: this.state.effective_date, 
+                tripCancellation: this.state.trip_cancellation
+            }}
+        />
       );
     }
 }
