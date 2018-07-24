@@ -1,27 +1,11 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  Image,
-  ImageBackground,
-  View
-} from 'react-native';
+import { StyleSheet, Platform, Image, ImageBackground, Text, View } from 'react-native'
+import { createSwitchNavigator } from 'react-navigation'
 
-import * as firebase from 'firebase';
-
-// Initialize Firebase
-const firebaseConfig = {
-  apiKey: "AIzaSyDOMfBkknvIuI9EcABLf_FbGT0im0BfqKo",
-  authDomain: "solartis-app.firebaseapp.com",
-  databaseURL: "https://solartis-app.firebaseio.com",
-  projectId: "solartis-app",
-  storageBucket: "solartis-app.appspot.com",
-  messagingSenderId: "819926642391"
-  //expo guide doesnt have databaseURL, projectId, messagingSenderID
-};
-
-firebase.initializeApp(firebaseConfig);
+import LoadingScreen from './LoadingScreen';
+import SignInScreen from './SignInScreen';
+import SignUpScreen from './SignUpScreen';
+import MainScreen from './MainScreen';
 
 const styles = StyleSheet.create({
   container: {
@@ -47,64 +31,16 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class HomeScreen extends React.Component {
-  static navigationOptions = {
-    drawerLabel: 'Home',
-    drawerIcon: ({ tintColor }) => (
-      <Image
-        source={require('../assets/images/annie.png')}
-        style={[styles.tabIcon, {tintColor: tintColor}]}
-      />
-    ),
-  };
-
-  render() {
-    //const resizeMode = 'cover';
-    const text1 = "Welcome Annie!"; //replace annie with name
-    const text2 = "Swipe right to start planning your adventures";
-    let registered = false; //if registered, remove registration prompt
-
-    return (
-      <ImageBackground source={require('../assets/images/hotballoons.jpg')}
-        imageStyle={{resizeMode: 'stretch'}}
-        style={styles.container}
-      >
-        <View style={styles.container}>
-          <Text
-            style={{
-              textAlign: 'center',
-              fontSize: 40,
-              color: 'black',
-              paddingBottom: 2,
-            }}
-          >
-            {text1}
-          </Text>
-            <View> 
-              <TextInput
-                style={{height: 40, borderColor: 'gray', backgroundColor:'white', borderWidth: 1, width:160}}
-                onChangeText={(text) => this.setState({text})}
-                value='Registration Email'
-              />
-              <TextInput
-                style={{height: 40, borderColor: 'gray', backgroundColor:'white', borderWidth: 1, width:160}}
-                onChangeText={(text) => this.setState({text})}
-                value='Password'
-              />
-            </View>
-          <Text
-            style={{
-              textAlign: 'center',
-              fontSize: 30,
-              color: 'white',
-              paddingBottom: 2,
-            }}
-          >
-            {text2}
-          </Text>
-        </View>
-      </ImageBackground>
-    );
+const HomeScreen = createSwitchNavigator (
+  {
+    LoadingScreen,
+    SignUpScreen,
+    SignInScreen,
+    MainScreen
+  },
+  {
+    initialRouteName: 'LoadingScreen'
   }
+);
 
-}
+export default HomeScreen;

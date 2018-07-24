@@ -2,11 +2,30 @@ import React from 'react';
 import { Button, Image, Text, Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
+import * as firebase from 'firebase';
 
 export default class App extends React.Component {
-  state = {
-    isLoadingComplete: false,
-  };
+  constructor (props) {
+    super(props);
+    this.state = {
+      isLoadingComplete: false,
+    };
+    // Initialize Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyDOMfBkknvIuI9EcABLf_FbGT0im0BfqKo",
+      authDomain: "solartis-app.firebaseapp.com",
+      databaseURL: "https://solartis-app.firebaseio.com",
+      projectId: "solartis-app",
+      storageBucket: "solartis-app.appspot.com",
+      messagingSenderId: "819926642391"
+      //expo guide doesnt have databaseURL, projectId, messagingSenderID
+    };
+
+    if (!firebase.apps.length){
+      firebase.initializeApp(firebaseConfig);
+    }
+  }
+
 
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
