@@ -28,8 +28,10 @@ export default class CreateCustomerScreen extends React.Component {
     super(props);
     this.stateToCodeMap = this.stateToCodeMap.bind(this);
     this.state = {
+        createCustomer: this.props.createCustomer ? this.props.createCustomer : this.props.navigation.state.params.createCustomer,
         customer: this.props.customer ? this.props.customer : this.props.navigation.state.params.customer,
         plan: this.props.plan ? this.props.plan : this.props.navigation.state.params.plan,
+        customer: this.props.payment ? this.props.payment : this.props.navigation.state.params.payment,
 
         loading: false,
         URI: "https://travelapihk.solartis.net/DroolsV4_2/DroolsService/FireEventV2",
@@ -40,7 +42,7 @@ export default class CreateCustomerScreen extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.createCustomer) {
+    if (this.state.createCustomer == '1') {
         console.log('Customer');
         this.retrieveCustomerData();
     } else {
@@ -50,73 +52,105 @@ export default class CreateCustomerScreen extends React.Component {
   }
 
   render() {
+    return (
+      this.displayView()
+    );
+  }
+
+  displayView() {
     let premium;
     if (this.state.dataSource) {
       premium = this.state.dataSource
     } else {
       premium = "0.00"
     }
-    return (
-        <Text>Thanks for your patience! For your plan, {this.state.plan.planName.value}, you're
-        total base premium is: {premium}.</Text>
-    );
+    if (this.state.createCustomer == '1') {
+      return (
+        <View> 
+          <Text>Thanks for your payment! We've successfully processed your order.</Text>
+        </View>
+      );
+    } else {
+      return (<Text>Thanks for your patience! For your plan, {this.planNameMap()}, you're
+        total base premium is: {premium}.</Text>);
+    }
+  }
+
+  planNameMap() {
+    let planMap = {
+       air_ticket: 'Air Ticket Protector',
+       classic_plus: 'Classic Plus',
+       premier: 'Premier',
+       premier_annual: 'Premier Annual',
+       basic_annual: 'Basic Annual',
+       medical_only: 'Medical Only Annual',
+       renters_collision: 'Renter\'s Collision'
+    }
+
+    return planMap[this.state.plan.planName.value];
+
   }
 
 
   stateToCodeMap() {
       let stateCodeMap = {
-        alabama: AL,
-        alaska: AK,
-        arizona: AZ,        
-        arkansas: AR,
-        california: CA,
-        colorado: CO,
-        connecticut: CT,
-        delaware: DE,
-        florida: FL,
-        georgia: GA,
-        hawaii: HI,
-        idaho: ID,   
-        illinois: IL,
-        indiana: IN,
-        iowa: IA,        
-        kansas: KS,        
-        kentucky: KY,        
-        louisiana: LA,        
-        maine: ME,        
-        maryland: MD,        
-        massachusetts: MA,
-        michigan: MI,
-        minnesota: MN,
-        mississippi: MS,
-        missouri: MO,        
-        montana: MT,        
-        nebraska: NE,
-        nevada: NV,
-        'new hampshire': NH,
-        'new jersey': NJ,
-        'new mexico': NM,
-        'new york': NY,
-        'north carolina': NC,
-        'north dakota': ND,
-        ohio: OH,
-        oklahoma: OK,
-        oregon: OR,
-        pennsylvania: PA,
-        'rhode island': RI,
-        'south carolina': SC,
-        'south dakota':	SD,
-        tennessee: TN,
-        texas: TX,
-        utah: UT,
-        vermont: VT,
-        virginia: VA,
-        washington: WA,
-        'west virginia': WV,
-        wisconsin: WI,
-        wyoming: WY
+        alabama: 'AL',
+        alaska: 'AK',
+        arizona: 'AZ',        
+        arkansas: 'AR',
+        california: 'CA',
+        colorado: 'CO',
+        connecticut: 'CT',
+        delaware: 'DE',
+        florida: 'FL',
+        georgia: 'GA',
+        hawaii: 'HI',
+        idaho: 'ID',   
+        illinois: 'IL',
+        indiana: 'IN',
+        iowa: 'IA',        
+        kansas: 'KS',        
+        kentucky: 'KY',        
+        louisiana: 'LA',        
+        maine: 'ME',        
+        maryland: 'MD',        
+        massachusetts: 'MA',
+        michigan: 'MI',
+        minnesota: 'MN',
+        mississippi: 'MS',
+        missouri: 'MO',        
+        montana: 'MT',        
+        nebraska: 'NE',
+        nevada: 'NV',
+        'new hampshire': 'NH',
+        'new jersey': 'NJ',
+        'new mexico': 'NM',
+        'new york': 'NY',
+        'north carolina': 'NC',
+        'north dakota': 'ND',
+        ohio: 'OH',
+        oklahoma: 'OK',
+        oregon: 'OR',
+        pennsylvania: 'PA',
+        'rhode island': 'RI',
+        'south carolina': 'SC',
+        'south dakota':	'SD',
+        tennessee: 'TN',
+        texas: 'TX',
+        utah: 'UT',
+        vermont: 'VT',
+        virginia: 'VA',
+        washington: 'WA',
+        'west virginia': 'WV',
+        wisconsin: 'WI',
+        wyoming: 'WY'
       };
-      return stateCodeMap[this.state.customer.state.lower()];
+      
+      if (this.state.customer.state.toLowerCase() in stateCodeMap) {
+        return stateCodeMap[this.state.customer.state.toLowerCase()];
+      } else {
+        return "";
+      }
   }
 
   retrieveCustomerData() {
@@ -178,16 +212,65 @@ export default class CreateCustomerScreen extends React.Component {
       })
     }).then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
         this.setState({
           dataSource: JSON.stringify(responseJson.CustomerInformation),
           customerReferenceNumber: responseJson.CustomerInformation.CustomerReferenceNumber
         });
+        this.payInsurance();
       })
   }
 
+  payInsurance() {
+    fetch(this.state.URI, {
+      method: 'POST',
+      headers: {
+        Token: this.state.ACCESS_TOKEN,
+        'Content-Type': this.state.CONTENT_TYPE,
+        EventName: "Pay_Issue",
+      },
+      body: JSON.stringify({
+        "ServiceRequestDetail": {
+          "ServiceRequestVersion": "1.0",
+          "ServiceResponseVersion": "1.0",
+          "OwnerId": "15",
+          "ResponseType": "JSON",
+          "RegionCode": "US",
+          "Token": this.state.ACCESS_TOKEN,
+          "UserName": "travelagent",
+          "LanguageCode": "en"
+        },
+        "PolicyInformation": {
+          "ProductVerID": "706",
+          "ProductID": "619",
+          "ProductNumber": "ILT",
+          "ProductVerNumber": "1.0",
+          "ProducerCode": "86201",
+          "OwnerId": "15",
+          "CustomerNumber": this.state.customerReferenceNumber,
+          "RoleID": "5",
+          "RoleName": "Agent",
+          "RoleType": "User",
+          "EventName": "Pay_Issue",
+          "CardNumber": this.state.payment.card,
+          "CVV": this.state.payment.cvv,
+          "ExpiryMonth": this.state.payment.expiryMonth,
+          "ExpiryYear": this.state.payment.expiryYear,
+          "PayerName": this.state.customer.firstName + this.state.customer.lastName,
+          "PayerAddress1": this.state.customer.address,
+          "PayerCity": this.state.customer.city,
+          "PayerState": this.stateToCodeMap(),
+          "PayerCountry": "US",
+          "PayerZipcode": this.state.customer.zipCode,
+          "PayerEmail": this.state.customer.email,
+          "PayerPhone": this.state.customer.phone,
+          "PaymentMethod": this.state.payment.payMethod,
+          "CardType": this.state.payment.cardType
+        }
+      })
+    })
+  }
+
   retrieveRateData() {
-    console.log(this.state.customer.dob.value);
     fetch(this.state.URI, {
         method: 'POST',
         headers: {

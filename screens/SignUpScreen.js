@@ -1,42 +1,52 @@
-import React, { Component } from 'react';
+import React from 'react';
+import t from 'tcomb-form-native';
+
 import {
   StyleSheet,
-  Text,
-  TextInput,
   Button,
-  Image,
-  ImageBackground,
   View,
+  ScrollView,
   Alert
 } from 'react-native';
 
-import { createStackNavigator } from 'react-navigation'; 
-import CreateCustomerScreen from '../utils/CreateCustomer'; 
-import { NavigationActions } from 'react-navigation';
 import * as firebase from 'firebase';
+
+const User = t.struct({
+  email: t.String,
+  password: t.String,
+  confirmPassword: t.String,
+  firstName: t.String,
+  lastName: t.String,
+  dateOfBirth: t.Date,
+  address: t.String,
+  city: t.String,
+  state: t.String,
+  zipCode: t.String,
+  country: t.String,
+  phone: t.String
+});
+
+const options = {
+  fields: {
+    password: {
+      password: true,
+      secureTextEntry: true
+    },
+    confirmPassword: {
+      password: true,
+      secureTextEntry: true
+    }
+}};
+
+const Form = t.form.Form;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  tabIcon: {
-    width: 16,
-    height: 16,
-  },
-  text: {
-    flex:1,
-    flexWrap:'wrap',
-  },
-  input: {
-    height: 40, borderColor: 'gray', backgroundColor:'white', borderWidth: 1, width:160,
+    padding: 30,
+    paddingTop: 50,
+    justifyContent: 'center',
+    backgroundColor: '#5F8FEE'
   },
 });
 
@@ -60,23 +70,17 @@ this.props.navigation.navigate('SignInScreen',
             )
 */
 
-class SignUpScreen extends React.Component {
+export default class SignUpScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
-      email: "",
-      password: "",
-      passwordConfirm: "",
-    };
   }
 
-  writeUserData = (userName, email, firstName, lastName, dob, address, city, state, zipcode, country, phone) => {
-    firebase.database().ref('users/' + userName).set({
-      userName: userName,
+  writeUserData = (email, firstName, lastName, dateOfBirth, address, city, state, zipcode, country, phone) => {
+    firebase.database().ref('users/' + firstName + lastName).set({
       email: email,
       firstName: firstName,
       lastName: lastName,
-      dob: dob,
+      dateOfBirth: dateOfBirth,
       address: address,
       city: city,
       state: state,
@@ -87,129 +91,46 @@ class SignUpScreen extends React.Component {
   }
 
   onSignupPress = () => {
-    if (this.state.password !== this.state.passwordConfirm) {
+    const value = this._form.getValue();
+
+    if (value.password !== value.confirmPassword) {
       Alert.alert("Passwords do not match");
       return;
     }
-
-    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+    
+    firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
       .then(() => { }, (error) => { Alert.alert(error.message); });
 
-    this.writeUserData(this.state.userName, this.state.email, this.state.firstName, this.state.lastName, this.state.dob, this.state.address, this.state.city, this.state.state, this.state.zipCode, this.state.country, this.state.phone);
+    this.writeUserData(value.email, value.firstName, value.lastName, value.dateOfBirth, value.address, value.city, value.state, value.zipCode, value.country, value.phone);
   }
 
-    onBackToLoginPress = () => {
-      this.props.navigation.navigate('SignInScreen');
-    }
+  onBackToLoginPress = () => {
+    this.props.navigation.navigate('SignInScreen');
+  }
 
   render() {
     return (
-      <ImageBackground source={require('../assets/images/waters.jpg')}
-        imageStyle={{resizeMode: 'stretch'}}
-        style={styles.container}
-      >
+      <ScrollView>
         <View style={styles.container}>
-          <View style={{flexDirection:'row'}}>
-            <Text>Signup Email</Text>
-            <TextInput style={{width: 200, height: 40, borderWidth: 1}}
-              value={this.state.email}
-              onChangeText={(text) => { this.setState({email: text}) }}
-              placeholder="Email"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-          </View>
+        <Form 
+          ref={c => this._form = c}
+          type={User} 
+          options={options}
+        /> 
 
-          <View style={{flexDirection:'row', paddingTop:10}}>
-            <Text>New Password</Text>
-            <TextInput style={{width: 200, height: 40, borderWidth: 1}}
-                value={this.state.password}
-                onChangeText={(text) => { this.setState({password: text}) }}
-                placeholder="Password"
-                secureTextEntry={true}
-                autoCapitalize="none"
-                autoCorrect={false}
-            />
-          </View>
+        <Button 
+          title="Signup" 
+          color= 'white'
+          onPress={this.onSignupPress} 
+        />
+        <Button 
+          title="Back to Login" 
+          color= 'white'
+          onPress={this.onBackToLoginPress} 
+        />
 
-          <View style={{flexDirection:'row', paddingTop:10}}>
-            <Text>Confirm Password</Text>
-            <TextInput style={{width: 200, height: 40, borderWidth: 1}}
-                value={this.state.passwordConfirm}
-                onChangeText={(text) => { this.setState({passwordConfirm: text}) }}
-                placeholder="Password (confirm)"
-                secureTextEntry={true}
-                autoCapitalize="none"
-                autoCorrect={false}
-            />
-          </View>
-
-          <Button title="Signup" onPress={this.onSignupPress} />
-
-          <Button title="Back to Login" onPress={this.onBackToLoginPress} />
-
-          <View style={{flexDirection:'row'}}>
-            <Text>User Name</Text>
-            <TextInput style={styles.input} onChangeText={(userName) => this.setState({userName})}>
-            </TextInput>
-          </View>
-          <View style={{flexDirection:'row', paddingTop:20}}>
-            <Text>First Name</Text>
-            <TextInput style={styles.input} onChangeText={(firstName) => this.setState({firstName})}>
-            </TextInput>
-          </View>
-          <View style={{flexDirection:'row'}}>
-            <Text>Last Name</Text>
-            <TextInput style={styles.input} onChangeText={(lastName) => this.setState({lastName})}>
-            </TextInput>
-          </View>
-          <View style={{flexDirection:'row'}}>
-            <Text>Date of Birth</Text>
-            <TextInput style={styles.input} onChangeText={(dob) => this.setState({dob})}>
-            </TextInput>
-          </View>
-          <View style={{flexDirection:'row'}}>
-            <Text>Address</Text>
-            <TextInput style={styles.input} onChangeText={(address) => this.setState({address})}>
-            </TextInput>
-          </View>
-          <View style={{flexDirection:'row'}}>
-            <Text>City</Text>
-            <TextInput style={styles.input} onChangeText={(city) => this.setState({city})}>
-            </TextInput>
-          </View>
-          <View style={{flexDirection:'row'}}>
-            <Text>State</Text>
-            <TextInput style={styles.input} onChangeText={(state) => this.setState({state})}>
-            </TextInput>
-          </View>
-          <View style={{flexDirection:'row'}}>
-            <Text>Zip Code</Text>
-            <TextInput style={styles.input} onChangeText={(zipCode) => this.setState({zipCode})}>
-            </TextInput>
-          </View>
-          <View style={{flexDirection:'row'}}>
-            <Text>Country</Text>
-            <TextInput style={styles.input} onChangeText={(country) => this.setState({country})}>
-            </TextInput>
-          </View>
-          <View style={{flexDirection:'row'}}>
-            <Text>Phone</Text>
-            <TextInput style={styles.input} onChangeText={(phone) => this.setState({phone})}>
-            </TextInput>
-          </View>
-          <Button
-          color='black'
-          title="Submit Information"
-          onPress={() =>
-            this.handleSignUp
-          }
-          />
         </View>
-      </ImageBackground>
+      </ScrollView>
     );
   }
 }
-
-export default SignUpScreen

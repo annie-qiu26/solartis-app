@@ -1,78 +1,89 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, Button, Image, ImageBackground,View, Alert} from 'react-native';
-import CreateCustomerScreen from '../utils/CreateCustomer'; 
-
-import SignUpScreen from './SignUpScreen.js';
-import ForgotPasswordScreen from './ForgotPasswordScreen.js';
-import ChatScreen from './ChatScreen.js';
+import React from 'react';
+import { StyleSheet, Text,  Button, View, Alert} from 'react-native';
 
 import * as firebase from 'firebase';
 
-export default class SignInScreen extends React.Component {
-	constructor(props) {
-        super(props);
-        this.state = { 
-            email: "",
-            password: "",
-        };
-    }
+import t from 'tcomb-form-native';
 
-    handleLogin = () => {
-        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-            .then(() => { }, (error) => { Alert.alert(error.message); });
+const User = t.struct({
+  email: t.String,
+  password: t.String,
+});
+
+const Form = t.form.Form;
+
+const options = {
+  fields: {
+    password: {
+      password: true,
+      secureTextEntry: true
     }
+}};
+
+export default class SignInScreen extends React.Component {
+  static navigationOptions = {
+    title: 'Sign in'
+  };
+
+  constructor(props) {
+    super(props);
+  }
+
+  handleLogin = () => {
+    const value = this._form.getValue();
+    firebase.auth().signInWithEmailAndPassword(value.email, value.password)
+      .then(() => { }, (error) => { Alert.alert(error.message); });
+  }
 
 	render () {
 		return (
-			<View style={{paddingTop:50, alignItems:"center"}}>
-
-                <Text>Login</Text> 
-
-                <TextInput style={{width: 200, height: 40, borderWidth: 1}}
-                    value={this.state.email}
-                    onChangeText={(text) => { this.setState({email: text}) }}
-                    placeholder="Email"
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                />
-
-                <View style={{paddingTop:10}} />
-
-                <TextInput style={{width: 200, height: 40, borderWidth: 1}}
-                    value={this.state.password}
-                    onChangeText={(text) => { this.setState({password: text}) }}
-                    placeholder="Password"
-                    secureTextEntry={true}
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                />
-
-		        <Button title="Login" onPress={this.handleLogin} />
-		        <Button
-		          title="Don't have an account? Sign Up"
-		          onPress={() => this.props.navigation.navigate('SignUpScreen')}
-		        />
-		        <Button
-		          title="Forgot Password?"
-		          onPress={() => this.props.navigation.navigate('ForgotPasswordScreen')}
-		        />
-	      	</View>
-    	)
-  	}
+			<View style={styles.container}>
+        <Text style = {styles.title}>
+          Solartis Insure
+        </Text>
+        <Form 
+          ref={c => this._form = c}
+          type={User} 
+          options={options}
+        /> 
+        <Button 
+          title="Login" 
+          color= 'white'
+          onPress={this.handleLogin} />
+		    <Button
+          title="Don't have an account? Sign Up"
+          color= 'white'
+		      onPress={() => this.props.navigation.navigate('SignUpScreen')}
+		    />
+		    <Button
+          title="Forgot Password?"
+          color= 'white'
+		      onPress={() => this.props.navigation.navigate('ForgotPasswordScreen')}
+		    />
+	    </View>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 30,
     justifyContent: 'center',
-    alignItems: 'center'
+    backgroundColor: '#5F8FEE'
   },
-  textInput: {
-    height: 40,
-    width: '90%',
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginTop: 8
+  title: {
+    textShadowOffset: {
+      width: 10,
+      height: 10
+    },
+    fontSize: 40,
+    color: '#ff0000',
+    textShadowColor: 'black',
+    marginBottom: 25,
+    fontFamily: 'roboto'
+  },
+  button: {
+    color: 'white'
   }
 })
