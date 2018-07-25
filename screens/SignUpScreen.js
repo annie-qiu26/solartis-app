@@ -70,6 +70,22 @@ class SignUpScreen extends React.Component {
     };
   }
 
+  writeUserData = (userName, email, firstName, lastName, dob, address, city, state, zipcode, country, phone) => {
+    firebase.database().ref('users/' + userName).set({
+      userName: userName,
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      dob: dob,
+      address: address,
+      city: city,
+      state: state,
+      zipcode: zipcode,
+      country: country,
+      phone: phone
+    })
+  }
+
   onSignupPress = () => {
     if (this.state.password !== this.state.passwordConfirm) {
       Alert.alert("Passwords do not match");
@@ -78,7 +94,9 @@ class SignUpScreen extends React.Component {
 
     firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => { }, (error) => { Alert.alert(error.message); });
-    }
+
+    this.writeUserData(this.state.userName, this.state.email, this.state.firstName, this.state.lastName, this.state.dob, this.state.address, this.state.city, this.state.state, this.state.zipCode, this.state.country, this.state.phone);
+  }
 
     onBackToLoginPress = () => {
       this.props.navigation.navigate('SignInScreen');
@@ -131,6 +149,11 @@ class SignUpScreen extends React.Component {
 
           <Button title="Back to Login" onPress={this.onBackToLoginPress} />
 
+          <View style={{flexDirection:'row'}}>
+            <Text>User Name</Text>
+            <TextInput style={styles.input} onChangeText={(userName) => this.setState({userName})}>
+            </TextInput>
+          </View>
           <View style={{flexDirection:'row', paddingTop:20}}>
             <Text>First Name</Text>
             <TextInput style={styles.input} onChangeText={(firstName) => this.setState({firstName})}>
