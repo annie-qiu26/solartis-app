@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 
 export default class MainScreen extends React.Component {
   static navigationOptions = {
-    drawerLabel: 'Current',
+    drawerLabel: 'Main',
     drawerIcon: ({ tintColor }) => (
       <Image
         source={require('../assets/images/annie.png')}
@@ -49,7 +49,7 @@ export default class MainScreen extends React.Component {
 
   render() {
     //const resizeMode = 'cover';
-    const text1 = "Welcome Annie!"; //replace annie with name
+    const text1 = "Welcome to Solartis!"; //replace annie with name
     const text2 = "Testing Swipe Right";
 
     return (

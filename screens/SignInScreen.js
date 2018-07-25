@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text,  Button, View, Alert} from 'react-native';
+import stylesheet from '../constants/FormsStyle';
 
 import * as firebase from 'firebase';
 
@@ -18,7 +19,9 @@ const options = {
       password: true,
       secureTextEntry: true
     }
-}};
+  },
+  stylesheet: stylesheet
+};
 
 export default class SignInScreen extends React.Component {
   static navigationOptions = {
@@ -29,8 +32,21 @@ export default class SignInScreen extends React.Component {
     super(props);
   }
 
+  checkProperties(obj) {
+    for (let key in obj) {
+        if (obj[key] === null || obj[key] === "")
+            return false;
+    }
+    return true;
+  }
+
   handleLogin = () => {
     const value = this._form.getValue();
+
+    if (value == null || !this.checkProperties(value)) {
+      return;
+    }
+    
     firebase.auth().signInWithEmailAndPassword(value.email, value.password)
       .then(() => { }, (error) => { Alert.alert(error.message); });
   }
@@ -78,7 +94,7 @@ const styles = StyleSheet.create({
       height: 10
     },
     fontSize: 40,
-    color: '#ff0000',
+    color: '#dd0000',
     textShadowColor: 'black',
     marginBottom: 25,
     fontFamily: 'roboto'

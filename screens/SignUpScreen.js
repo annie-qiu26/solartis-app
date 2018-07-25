@@ -1,15 +1,18 @@
 import React from 'react';
 import t from 'tcomb-form-native';
+import stylesheet from '../constants/FormsStyle';
 
 import {
   StyleSheet,
   Button,
   View,
   ScrollView,
-  Alert
+  Alert,
 } from 'react-native';
 
 import * as firebase from 'firebase';
+
+const Form = t.form.Form;
 
 const User = t.struct({
   email: t.String,
@@ -21,9 +24,9 @@ const User = t.struct({
   address: t.String,
   city: t.String,
   state: t.String,
-  zipCode: t.String,
+  zipCode: t.Number,
   country: t.String,
-  phone: t.String
+  phone: t.Number
 });
 
 const options = {
@@ -36,9 +39,9 @@ const options = {
       password: true,
       secureTextEntry: true
     }
-}};
-
-const Form = t.form.Form;
+  },
+  stylesheet: stylesheet
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -90,8 +93,20 @@ export default class SignUpScreen extends React.Component {
     })
   }
 
+  checkProperties(obj) {
+    for (let key in obj) {
+        if (obj[key] === null || obj[key] === "")
+            return false;
+    }
+    return true;
+  }
+
   onSignupPress = () => {
     const value = this._form.getValue();
+
+    if (value == null || !this.checkProperties(value)) {
+      return;
+    }
 
     if (value.password !== value.confirmPassword) {
       Alert.alert("Passwords do not match");
