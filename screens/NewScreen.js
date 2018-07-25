@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,6 +8,8 @@ import {
   ImageBackground,
   View
 } from 'react-native';
+
+import * as firebase from 'firebase';
 
 import { createStackNavigator } from 'react-navigation'; 
 import CreateCustomerScreen from '../utils/CreateCustomer'; 
@@ -44,9 +46,10 @@ class TravelVariables extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      customer: this.props.navigation.state.params.customer
-    }
+
+    firebase.database().ref('users/' + firebase.auth().currentUser.stsTokenManager.uid).on('value', snapshot => {
+      this.setState({customer: snapshot.val()})
+    });
   }
 
   render() {

@@ -7,30 +7,59 @@ import {
   ImageBackground,
   View
 } from 'react-native';
+import { Button } from 'react-native-elements';
 
 import * as firebase from 'firebase';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-around',
+  },
+  containerTop: {
+    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'transparent',
+    marginTop: 100,
+    padding: 20,
   },
-  welcome: {
-    fontSize: 20,
+  containerBottom: {
+    position: 'absolute',
+    bottom: 125,
+    alignItems: 'center',
+    alignSelf: 'center'
+  },
+  title: {
     textAlign: 'center',
-    margin: 10,
-  },
-  tabIcon: {
-    width: 16,
-    height: 16,
+    fontSize: 40,
+    color: 'black',
+    paddingBottom: 2,
+    fontFamily: 'roboto'
   },
   backgroundImage: {
     flex: 1,
     width: null,
     height: null,
     resizeMode: 'cover',
+  },
+  tabIcon: {
+    width: 16,
+    height: 16,
+  },
+  button: {
+    backgroundColor: "rgba(92, 99,216, 1)",
+    width: 300,
+    height: 45,
+    borderColor: "transparent",
+    borderWidth: 0,
+    borderRadius: 5,
+    alignSelf: 'center'
+  },
+  swipe: {
+    textAlign: 'center',
+    fontSize: 25,
+    color: 'white',
+    marginTop: 25,
+    fontFamily: 'roboto',
+    alignSelf: 'center'
   }
 });
 
@@ -47,35 +76,33 @@ export default class MainScreen extends React.Component {
 
   state = { currentUser: null}
 
+  onSignOut() {
+    firebase.auth().signOut();
+  }
+
   render() {
-    //const resizeMode = 'cover';
-    const text1 = "Welcome to Solartis!"; //replace annie with name
-    const text2 = "Testing Swipe Right";
+    const text1 = "Welcome to Solartis!";
+    const text2 = "Swipe Right to Start";
 
     return (
       <ImageBackground source={require('../assets/images/hotballoons.jpg')}
-        imageStyle={{resizeMode: 'stretch'}}
+        resizeMode = 'stretch'
         style={styles.container}
       >
-        <View style={styles.container}>
-          <Text
-            style={{
-              textAlign: 'center',
-              fontSize: 40,
-              color: 'black',
-              paddingBottom: 2,
-            }}
-          >
+        <View style={styles.containerTop}
+           numberOfLines={2}>
+          <Text style={styles.title}>
             {text1}
           </Text>
-          <Text
-            style={{
-              textAlign: 'center',
-              fontSize: 30,
-              color: 'white',
-              paddingBottom: 2,
-            }}
-          >
+        </View>
+        <View style = {styles.containerBottom}>
+          <Button
+            title="Sign Out"
+            titleStyle={{ fontWeight: "50" }}
+            buttonStyle={styles.button}
+            containerStyle={{ marginTop: 20 }}
+          />
+          <Text style={styles.swipe}>
             {text2}
           </Text>
         </View>

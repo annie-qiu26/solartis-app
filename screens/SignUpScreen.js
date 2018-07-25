@@ -67,33 +67,13 @@ const styles = StyleSheet.create({
   },
 });
 
-/* removed this code
-
-this.props.navigation.navigate('SignInScreen', 
-              {
-                customer: {
-                  firstName: this.state.firstName,
-                  lastName: this.state.lastName,
-                  dob: this.state.dob,
-                  address: this.state.address,
-                  city: this.state.city,
-                  state: this.state.state,
-                  zipCode: this.state.zipCode,
-                  country: this.state.country,
-                  phone: this.state.phone,
-                  email: this.state.email
-                }
-              }
-            )
-*/
-
 export default class SignUpScreen extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  writeUserData = (email, firstName, lastName, dateOfBirth, address, city, state, zipcode, country, phone) => {
-    firebase.database().ref('users/' + firstName + lastName).set({
+  writeUserData = (uid, email, firstName, lastName, dateOfBirth, address, city, state, zipcode, country, phone) => {
+    firebase.database().ref('users/' + uid).set({
       email: email,
       firstName: firstName,
       lastName: lastName,
@@ -117,7 +97,6 @@ export default class SignUpScreen extends React.Component {
 
   onSignupPress = () => {
     const value = this._form.getValue();
-    console.log(value);
 
     if (value == null || !this.checkProperties(value)) {
       return;
@@ -127,11 +106,11 @@ export default class SignUpScreen extends React.Component {
       Alert.alert("Passwords do not match");
       return;
     }
-    
-    firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
-      .then(() => { }, (error) => { Alert.alert(error.message); });
 
-    this.writeUserData(value.email, value.firstName, value.lastName, value.dateOfBirth, value.address, value.city, value.state, value.zipCode, value.country, value.phone);
+    firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
+      .then(user => {
+        this.writeUserData(user.uid, value.email, value.firstName, value.lastName, value.dateOfBirth, value.address, value.city, value.state, value.zipCode, value.country, value.phone);}, 
+        (error) => { Alert.alert(error.message); });
   }
 
   onBackToLoginPress = () => {

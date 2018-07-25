@@ -13,24 +13,13 @@ import * as firebase from 'firebase';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
+    justifyContent: 'center',
   },
-  welcome: {
-    fontSize: 20,
+  text: {
     textAlign: 'center',
-    margin: 10,
-  },
-  tabIcon: {
-    width: 16,
-    height: 16,
-  },
-  backgroundImage: {
-    flex: 1,
-    width: null,
-    height: null,
-    resizeMode: 'cover',
+    fontSize: 30,
+    color: 'white',
+    paddingBottom: 2,
   }
 });
 
@@ -42,9 +31,7 @@ export default class LoadingScreen extends React.Component {
   }
 
   render() {
-    //const resizeMode = 'cover';
-    const text1 = "Welcome Annie!"; //replace annie with name
-    const text2 = "Loading...";
+    const START_TEXT = "Loading...";
     let registered = false; //if registered, remove registration prompt
 
     return (
@@ -53,25 +40,8 @@ export default class LoadingScreen extends React.Component {
         style={styles.container}
       >
         <View style={styles.container}>
-          <Text
-            style={{
-              textAlign: 'center',
-              fontSize: 40,
-              color: 'black',
-              paddingBottom: 2,
-            }}
-          >
-            {text1}
-          </Text>
-          <Text
-            style={{
-              textAlign: 'center',
-              fontSize: 30,
-              color: 'white',
-              paddingBottom: 2,
-            }}
-          >
-            {text2}
+          <Text style={styles.text}>
+            {START_TEXT}
           </Text>
         </View>
       </ImageBackground>
