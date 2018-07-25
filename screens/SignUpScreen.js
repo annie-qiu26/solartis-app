@@ -1,6 +1,7 @@
 import React from 'react';
 import t from 'tcomb-form-native';
 import stylesheet from '../constants/FormsStyle';
+import moment from 'moment';
 
 import {
   StyleSheet,
@@ -29,6 +30,18 @@ const User = t.struct({
   phone: t.Number
 });
 
+let myFormatFunction = (format,date) =>{
+  return moment(date).format(format);
+}
+
+let effectiveDate = {
+  label: 'Date of birth',
+  mode:'date',
+  config:{
+      format: (date) => myFormatFunction("MM-DD-YYYY", date)
+  }
+};
+
 const options = {
   fields: {
     password: {
@@ -38,7 +51,8 @@ const options = {
     confirmPassword: {
       password: true,
       secureTextEntry: true
-    }
+    },
+    dateOfBirth: effectiveDate
   },
   stylesheet: stylesheet
 };
@@ -103,6 +117,7 @@ export default class SignUpScreen extends React.Component {
 
   onSignupPress = () => {
     const value = this._form.getValue();
+    console.log(value);
 
     if (value == null || !this.checkProperties(value)) {
       return;
