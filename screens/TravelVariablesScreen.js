@@ -84,7 +84,7 @@ export default class SignUpScreen extends React.Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     firebase.database().ref('users/' + firebase.auth().currentUser.uid).on('value', snapshot => {
       this.setState({customer: snapshot.val()});
     });

@@ -51,6 +51,7 @@ export default class HistoryScreen extends React.Component {
       })
     })
   }
+  
 
   addData = () => {
     statements = this.state.customer.statements;
@@ -70,9 +71,9 @@ export default class HistoryScreen extends React.Component {
 
   render() {
     if (!this.state.promiseIsResolved)
-        return (<Text style = {styles.text}>Loading...</Text>)
-    if (this.state.dataSource.length === 0) {
-        return (<Text style = {styles.text}>No Statements Found</Text>)
+        return (<Text style = {styles.text}>Loading...</Text>);
+    else if (this.state.promiseIsResolved && this.state.dataSource.length === 0) {
+        return (<Text style = {styles.text}>No Statements Found</Text>);
     }
     return (
         <View style={styles.container}>

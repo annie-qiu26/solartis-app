@@ -35,7 +35,8 @@ const styles = StyleSheet.create({
     borderColor: "transparent",
     borderWidth: 0,
     borderRadius: 5,
-    alignSelf: 'center'
+    alignSelf: 'center',
+    marginTop: 15
   },
   tabIcon: {
     width: 16,

@@ -35,7 +35,7 @@ export default class CreateCustomerScreen extends React.Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (this.state.createCustomer == '1') {
         console.log('Customer');
         this.retrieveCustomerData();
