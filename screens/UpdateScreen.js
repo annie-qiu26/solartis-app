@@ -56,23 +56,19 @@ export default class UpdateScreen extends React.Component {
     super(props);
   }
 
-  /*updateUserData = (uid, email, firstName, lastName, dateOfBirth, address, city, state, zipcode, country, phone) => {
-    firebase.database().ref('users/' + uid).update({
-      email: email,
-      firstName: firstName,
-      lastName: lastName,
-      dateOfBirth: dateOfBirth,
-      address: address,
-      city: city,
-      state: state,
-      zipcode: zipcode,
-      country: country,
-      phone: phone
-    })
-  }*/
+  checkProperties(obj) {
+    for (let key in obj) {
+        if (obj[key] === null || obj[key] === "")
+            return false;
+    }
+    return true;
+  }
 
   updateUserData = (uid, object) => {
-    if (object !== null){
+    if (object == null || !this.checkProperties(object)) {
+      return;
+    }
+
       for (var key in object){
         if (object[key]){
           firebase.database().ref('users/' + uid).update({
@@ -80,14 +76,12 @@ export default class UpdateScreen extends React.Component {
           })
         }
       }
-    }
   }
 
 
   onUpdatePress = () => {
     const value = this._form.getValue();
     var user = firebase.auth().currentUser;
-    //this.updateUserData(user.uid, value.email, value.firstName, value.lastName, value.dateOfBirth, value.address, value.city, value.state, value.zipCode, value.country, value.phone);
     this.updateUserData(user.uid, value);
     this.props.navigation.navigate('LogOutScreen');
   }

@@ -81,6 +81,7 @@ var stylesheet = Object.freeze({
     error: {
       color: INPUT_COLOR,
       fontSize: FONT_SIZE,
+      backgroundColor: '#eeeeee',
       height: 36,
       paddingVertical: Platform.OS === "ios" ? 7 : 0,
       paddingHorizontal: 7,

@@ -1,21 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, Image, View } from 'react-native';
+import * as firebase from 'firebase';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  tabIcon: {
-    width: 16,
-    height: 16,
+  title: {
+    fontSize: 40,
+    color: '#000000',
+    marginTop: 25,
+    fontFamily: 'roboto',
+    padding: 25
   },
 });
 
@@ -27,11 +20,12 @@ export default class CreateCustomerScreen extends React.Component {
   constructor(props) {
     super(props);
     this.stateToCodeMap = this.stateToCodeMap.bind(this);
+
     this.state = {
-        createCustomer: this.props.createCustomer ? this.props.createCustomer : this.props.navigation.state.params.createCustomer,
-        customer: this.props.customer ? this.props.customer : this.props.navigation.state.params.customer,
-        plan: this.props.plan ? this.props.plan : this.props.navigation.state.params.plan,
-        customer: this.props.payment ? this.props.payment : this.props.navigation.state.params.payment,
+        createCustomer: this.props.navigation ? '1' : {},
+        customer: this.props.navigation ? this.props.navigation.state.params.customer : this.props.customer,
+        plan: this.props.navigation ? this.props.navigation.state.params.plan : this.props.plan,
+        payment: this.props.navigation ? this.props.navigation.state.params.payment : {},
 
         loading: false,
         URI: "https://travelapihk.solartis.net/DroolsV4_2/DroolsService/FireEventV2",
@@ -41,7 +35,7 @@ export default class CreateCustomerScreen extends React.Component {
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     if (this.state.createCustomer == '1') {
         console.log('Customer');
         this.retrieveCustomerData();
@@ -57,6 +51,21 @@ export default class CreateCustomerScreen extends React.Component {
     );
   }
 
+  writeUserData = (destination, referenceNumber, policyEffectiveDate) => {
+    statementData = {
+      destination: destination,
+      referenceNumber: referenceNumber,
+      policyEffectiveDate: policyEffectiveDate
+    }
+    
+    statementKey = firebase.database().ref().child('statements').push().key;
+    updates = {};
+    updates['/statements/' + statementKey] = statementData;
+    updates['users/' + firebase.auth().currentUser.uid + '/statements/' + statementKey] = statementData;
+
+    return firebase.database().ref().update(updates);
+  }
+
   displayView() {
     let premium;
     if (this.state.dataSource) {
@@ -67,11 +76,12 @@ export default class CreateCustomerScreen extends React.Component {
     if (this.state.createCustomer == '1') {
       return (
         <View> 
-          <Text>Thanks for your payment! We've successfully processed your order.</Text>
+          <Text style = {styles.title} numberOfLines={10}>Thanks for your payment! We've successfully processed your order. Check out 
+            your plans in history</Text>
         </View>
       );
     } else {
-      return (<Text>Thanks for your patience! For your plan, {this.planNameMap()}, you're
+      return (<Text>Thanks for your patience! For your plan, {this.planNameMap()}, your
         total base premium is: {premium}.</Text>);
     }
   }
@@ -149,7 +159,7 @@ export default class CreateCustomerScreen extends React.Component {
       if (this.state.customer.state.toLowerCase() in stateCodeMap) {
         return stateCodeMap[this.state.customer.state.toLowerCase()];
       } else {
-        return "";
+        return this.state.customer.state;
       }
   }
 
@@ -193,7 +203,7 @@ export default class CreateCustomerScreen extends React.Component {
           "EventName": "CreateCustomer",
           "TravelerList": [
             {
-              "TravelerDOB": this.state.customer.dob,
+              "TravelerDOB": this.state.customer.dateOfBirth,
               "TravelCost": this.state.plan.tripCost,
               "FirstName": this.state.customer.firstName,
               "LastName": this.state.customer.lastName,
@@ -267,6 +277,11 @@ export default class CreateCustomerScreen extends React.Component {
           "CardType": this.state.payment.cardType
         }
       })
+    }).then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.writeUserData(this.state.plan.destination, responseJson.CustomerReferenceNumber,
+        responseJson.PolicyBatch.PolicyEffectiveDate);
     })
   }
 
@@ -303,17 +318,17 @@ export default class CreateCustomerScreen extends React.Component {
               "DepositDate": this.state.plan.depositDate ? this.state.plan.depositDate.value : "",
               "DestinationCountry": this.state.plan.destination ? this.state.plan.destination.value : "",
               "PolicyEffectiveDate": this.state.plan.effectiveDate ? this.state.plan.effectiveDate.value : "",
-              "RentalStartDate" : this.state.renterStart ? this.state.renterStart : "",
-              "RentalEndDate" : this.state.renterEnd ? this.state.renterEnd : "",
+              "RentalStartDate" : this.state.plan.renterStart ? this.state.plan.renterStart : "",
+              "RentalEndDate" : this.state.plan.renterEnd ? this.state.plan.renterEnd : "",
               "RentalLimit" : "35000",
-              "NumberOfRentalCars" : this.state.renterCars ? this.state.renterCars : "",
+              "NumberOfRentalCars" : this.state.plan.renterCars ? this.state.plan.renterCars : "",
               "TripCancellationCoverage": "With Trip Cancellation",
               "StateCode": "GA",
               "QuoteType": "New Business",
               "EventName": "InvokeRatingV2",
               "TravelerList": [
                 {
-                  "TravelerDOB": this.state.customer.dob.value,
+                  "TravelerDOB": this.state.customer.dateOfBirth,
                   "TravelCost": this.state.plan.tripCost ? this.state.plan.tripCost.value : ""
                 }
               ]

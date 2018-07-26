@@ -49,7 +49,7 @@ class LogOutScreen extends React.Component {
 
   render() {
     //const resizeMode = 'cover';
-    const text1 = "Settings"; //replace annie with name
+    const text1 = "Settings"; 
 
     handleLogOut = () => {
       firebase.auth().signOut();

@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
   }
 });
 
+<<<<<<< HEAD
 class StoryScreen extends React.Component {
 
   constructor(props) {
@@ -58,6 +59,11 @@ class StoryScreen extends React.Component {
     this.state = {
       story: 'Share your Story'
     };
+=======
+export default class FriendScreen extends React.Component {
+  static navigationOptions = {
+    drawerLabel: 'Friend',
+>>>>>>> origin/master
   };
 
   shareStory = () => {

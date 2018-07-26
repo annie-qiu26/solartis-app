@@ -28,12 +28,6 @@ const styles = StyleSheet.create({
 export default class ChatScreen extends React.Component {
   static navigationOptions = {
     drawerLabel: 'Chat',
-    drawerIcon: ({ tintColor }) => (
-      <Image
-        source={require('../assets/images/annie.png')}
-        style={[styles.tabIcon, {tintColor: tintColor}]}
-      />
-    ),
   };
 
   render() {

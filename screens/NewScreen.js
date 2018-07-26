@@ -3,23 +3,24 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  Button,
   Image,
   ImageBackground,
   View
 } from 'react-native';
 
-import * as firebase from 'firebase';
+import { Button } from 'react-native-elements';
 
 import { createStackNavigator } from 'react-navigation'; 
 import CreateCustomerScreen from '../utils/CreateCustomer'; 
+import TravelVariablesScreen from './TravelVariablesScreen';
+import PaymentScreen from './PaymentScreen';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-evenly',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
+    padding: 25,
+    paddingTop: 50,
   },
   welcome: {
     fontSize: 20,
@@ -37,79 +38,18 @@ const styles = StyleSheet.create({
   input: {
     height: 40, borderColor: 'gray', backgroundColor:'white', borderWidth: 1, width:160,
   },
+  button: {
+    backgroundColor: "rgba(92, 99,216, 1)",
+    width: 300,
+    height: 45,
+    borderColor: "transparent",
+    borderWidth: 0,
+    borderRadius: 5,
+    alignSelf: 'center',
+    marginTop: 20,
+    marginBottom: 75
+  },
 });
-
-class TravelVariables extends React.Component {
-  static navigationOptions = {
-    headerTitle: 'Travel Details',
-  };
-
-  constructor(props) {
-    super(props);
-
-    firebase.database().ref('users/' + firebase.auth().currentUser.stsTokenManager.uid).on('value', snapshot => {
-      this.setState({customer: snapshot.val()})
-    });
-  }
-
-  render() {
-    return (
-      <ImageBackground source={require('../assets/images/waters.jpg')}
-        imageStyle={{resizeMode: 'stretch'}}
-        style={styles.container}
-      >
-        <View style={styles.container}>
-          <View style={{flexDirection:'row'}}>
-            <Text>Destination Country</Text>
-            <TextInput style={styles.input} onChangeText={(destination) => this.setState({destination})}>
-            </TextInput>
-          </View>
-          <View style={{flexDirection:'row'}}>
-            <Text>Departure Date</Text>
-            <TextInput style={styles.input} onChangeText={(departDate) => this.setState({departDate})}>
-            </TextInput>
-          </View>
-          <View style={{flexDirection:'row'}}>
-            <Text>Return Date</Text>
-            <TextInput style={styles.input} onChangeText={(returnDate) => this.setState({returnDate})}>
-            </TextInput>
-          </View>
-          <View style={{flexDirection:'row'}}>
-            <Text>Plan Name</Text>
-            <TextInput style={styles.input} onChangeText={(planName) => this.setState({planName})}>
-            </TextInput>
-          </View>
-          <View style={{flexDirection:'row'}}>
-            <Text>Plan Type</Text>
-            <TextInput style={styles.input} onChangeText={(planType) => this.setState({planType})}>
-            </TextInput>
-          </View>
-          <View style={{flexDirection:'row'}}>
-            <Text>Trip Cost</Text>
-            <TextInput style={styles.input} onChangeText={(tripCost) => this.setState({tripCost})}>
-            </TextInput>
-          </View>
-        </View>
-        <Button
-          color='black'
-          title="Submit Information"
-          onPress={() =>
-            this.props.navigation.navigate('PricingPlan', {
-              customer: this.state.customer,
-              plan: {
-                destination: this.state.destination,
-                departDate: this.state.departDate,
-                returnDate: this.state.returnDate,
-                planName: this.state.planName,
-                planType: this.state.planType,
-                tripCost: this.state.tripCost
-              }
-            })}
-        />
-      </ImageBackground>
-    );
-  }
-}
 
 class PricingPlan extends React.Component {
   static navigationOptions = {
@@ -178,106 +118,31 @@ class PricingPlan extends React.Component {
             <Text style={styles.text}> {limitPreExisting} </Text>
           </View>
         <Button
-          title="Confirm Plan"
-          color='black'
+          title='Next'
+          titleStyle={{ fontWeight: "50" }}
+          buttonStyle={styles.button}
           onPress={() =>
             this.props.navigation.navigate('PaymentConfirmation', {
               customer: this.state.customer,
               plan: this.state.plan
-            })}
+          })}
         />
         </View>
     );
   }
 }
 
-class PaymentConfirmation extends React.Component {
-  static navigationOptions = {
-    headerTitle: 'Payment Confirmation',
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      customer: this.props.navigation.state.params.customer,
-      plan: this.props.navigation.state.params.plan
-    }
+const NewScreen = createStackNavigator (
+  {
+  	TravelVariables: TravelVariablesScreen,
+    PricingPlan: PricingPlan,
+    PaymentConfirmation: PaymentScreen,
+    CreateCustomer: CreateCustomerScreen
+  },
+  {
+  	initialRouteName: 'TravelVariables',
   }
-
-  render() {
-    return (
-      <ImageBackground source={require('../assets/images/waters.jpg')}
-        imageStyle={{resizeMode: 'stretch'}}
-        style={styles.container}>
-        <View style={styles.container}>
-          <View style={{flexDirection:'row'}}>
-            <Text>Card Number</Text>
-            <TextInput style={styles.input} onChangeText={(card) => this.setState({card})}>
-            </TextInput>
-          </View>
-          <View style={{flexDirection:'row'}}>
-            <Text>CVV</Text>
-            <TextInput style={styles.input} onChangeText={(cvv) => this.setState({cvv})}>
-            </TextInput>
-          </View>
-          <View style={{flexDirection:'row'}}>
-            <Text>Expiry Month</Text>
-            <TextInput style={styles.input} onChangeText={(expiryMonth) => this.setState({expiryMonth})}>
-            </TextInput>
-          </View>
-          <View style={{flexDirection:'row'}}>
-            <Text>Expiry Year</Text>
-            <TextInput style={styles.input} onChangeText={(expiryYear) => this.setState({expiryYear})}>
-            </TextInput>
-          </View>
-          <View style={{flexDirection:'row'}}>
-            <Text>Payment Method</Text>
-            <TextInput style={styles.input} onChangeText={(payMethod) => this.setState({payMethod})}>
-            </TextInput>
-          </View>
-          <View style={{flexDirection:'row'}}>
-            <Text>Card Type</Text>
-            <TextInput style={styles.input} onChangeText={(cardType) => this.setState({cardType})}>
-            </TextInput>
-          </View>
-        </View>
-        <Button
-          title="Make Payment"
-          color='black'
-          onPress={() =>
-            this.props.navigation.navigate('CreateCustomer', {
-              createCustomer: '1',
-              customer: this.state.customer,
-              plan: this.state.plan,
-              payment: {
-                card: this.state.card,
-                cvv: this.state.cvv,
-                expiryMonth: this.state.expiryMonth,
-                expiryYear: this.state.expiryYear,
-                payMethod: this.state.payMethod,
-                cardType: this.state.cardType
-              }
-            })}
-        />
-      </ImageBackground>
-    );
-  }
-}
-
-const NewScreen = createStackNavigator ({
-  TravelVariables: {
-    screen: TravelVariables,
-  },
-  PricingPlan: {
-    screen: PricingPlan,
-  },
-  PaymentConfirmation: {
-    screen: PaymentConfirmation,
-  },
-  CreateCustomer: {
-    screen: CreateCustomerScreen,
-  },
-});
+);
 
 export default NewScreen;
 
