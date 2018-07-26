@@ -5,8 +5,9 @@ import {
   TextInput,
   Image,
   ImageBackground,
-  View, Button, Alert
+  View, Alert
 } from 'react-native';
+import { Button } from 'react-native-elements';
 import UpdateScreen from './UpdateScreen';
 import {createStackNavigator} from 'react-navigation';
 import * as firebase from 'firebase';
