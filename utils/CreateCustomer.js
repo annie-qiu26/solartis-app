@@ -20,7 +20,6 @@ export default class CreateCustomerScreen extends React.Component {
   constructor(props) {
     super(props);
     this.stateToCodeMap = this.stateToCodeMap.bind(this);
-
     this.state = {
         createCustomer: this.props.navigation ? '1' : {},
         customer: this.props.navigation ? this.props.navigation.state.params.customer : this.props.customer,
@@ -100,7 +99,7 @@ export default class CreateCustomerScreen extends React.Component {
        medical_only: 'Medical Only Annual',
        renters_collision: 'Renter\'s Collision'
     }
-
+    
     return planMap[this.state.plan.planName.value];
 
   }

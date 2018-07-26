@@ -16,7 +16,7 @@ export default class CustomerInfo extends React.Component {
       return true;
     }
   
-    componentDidMount() {
+    componentWillMount() {
       const { steps } = this.props;
       const { renter_start_date, renter_end_date, renter_cars, destination, 
         effective_date, depart_date, return_date, plan_type, trip_cancellation, plan_name } = steps;
