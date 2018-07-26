@@ -27,11 +27,12 @@ export default class CreateCustomerScreen extends React.Component {
   constructor(props) {
     super(props);
     this.stateToCodeMap = this.stateToCodeMap.bind(this);
+  
     this.state = {
         createCustomer: this.props.createCustomer ? this.props.createCustomer : this.props.navigation.state.params.createCustomer,
         customer: this.props.customer ? this.props.customer : this.props.navigation.state.params.customer,
         plan: this.props.plan ? this.props.plan : this.props.navigation.state.params.plan,
-        customer: this.props.payment ? this.props.payment : this.props.navigation.state.params.payment,
+        payment: this.props.payment ? this.props.payment : this.props.navigation.state.params.payment,
 
         loading: false,
         URI: "https://travelapihk.solartis.net/DroolsV4_2/DroolsService/FireEventV2",
@@ -52,6 +53,8 @@ export default class CreateCustomerScreen extends React.Component {
   }
 
   render() {
+    console.log("CUSTOMER");
+    console.log(this.state.customer);
     return (
       this.displayView()
     );
@@ -149,7 +152,7 @@ export default class CreateCustomerScreen extends React.Component {
       if (this.state.customer.state.toLowerCase() in stateCodeMap) {
         return stateCodeMap[this.state.customer.state.toLowerCase()];
       } else {
-        return "";
+        return this.state.customer.state;
       }
   }
 
@@ -267,6 +270,9 @@ export default class CreateCustomerScreen extends React.Component {
           "CardType": this.state.payment.cardType
         }
       })
+    }).then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
     })
   }
 

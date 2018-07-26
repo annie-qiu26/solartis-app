@@ -10,13 +10,10 @@ export default class CustomerInfo extends React.Component {
   
     componentWillMount() {
       const { steps } = this.props;
-      const { first_name, last_name, dob, address_1, address_2,
-        city, state, zipcode, phone_number, email_address, renter_start_date,
-        renter_end_date, renter_cars, destination, effective_date, depart_date,
-        return_date, plan_type, trip_cancellation, plan_name } = steps;
+      const { renter_start_date, renter_end_date, renter_cars, destination, 
+        effective_date, depart_date, return_date, plan_type, trip_cancellation, plan_name } = steps;
   
-      this.setState({ first_name, last_name, dob, address_1, address_2,
-        city, state, zipcode, phone_number, email_address, renter_start_date,
+      this.setState({ renter_start_date,
         renter_end_date, renter_cars, destination, effective_date, depart_date,
         return_date, plan_type, trip_cancellation, plan_name });
     }
