@@ -180,10 +180,10 @@ export default [
         {
           id: '26',
           message: 'We hope you have a lovely trip! Do you want to check another rate?',
-          trigger: '27',
+          trigger: '28',
         },
         {
-          id: '27',
+          id: '28',
           options: [
             { value: 'yes', label: 'Yes', trigger: '14' },
             { value: 'no', label: 'No', trigger: 'end' },
