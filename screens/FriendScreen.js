@@ -63,7 +63,11 @@ class StoryScreen extends React.Component {
 export default class FriendScreen extends React.Component {
   static navigationOptions = {
     drawerLabel: 'Friend',
+<<<<<<< HEAD
 >>>>>>> origin/master
+=======
+>>>>>>> 0951e85ad8f658eb8675e9a98ce00896c4048671
+>>>>>>> my-temp-work
   };
 
   shareStory = () => {
