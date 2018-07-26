@@ -179,8 +179,15 @@ export default [
         },
         {
           id: '26',
-          message: 'We hope you have a lovely trip!',
-          trigger: 'end',
+          message: 'We hope you have a lovely trip! Do you want to check another rate?',
+          trigger: '27',
+        },
+        {
+          id: '27',
+          options: [
+            { value: 'yes', label: 'Yes', trigger: '14' },
+            { value: 'no', label: 'No', trigger: 'end' },
+          ],
         },
         {
           id: 'end',

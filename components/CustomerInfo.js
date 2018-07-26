@@ -11,6 +11,10 @@ export default class CustomerInfo extends React.Component {
         customer: {}
       }
     }
+    
+    shouldComponentUpdate(nextProps, nextState) {
+      return true;
+    }
   
     componentWillMount() {
       const { steps } = this.props;

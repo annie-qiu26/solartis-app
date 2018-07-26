@@ -35,7 +35,7 @@ export default class CreateCustomerScreen extends React.Component {
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     if (this.state.createCustomer == '1') {
         console.log('Customer');
         this.retrieveCustomerData();
@@ -76,7 +76,8 @@ export default class CreateCustomerScreen extends React.Component {
     if (this.state.createCustomer == '1') {
       return (
         <View> 
-          <Text style = {styles.title} numberOfLines={5}>Thanks for your payment! We've successfully processed your order.</Text>
+          <Text style = {styles.title} numberOfLines={10}>Thanks for your payment! We've successfully processed your order. Check out 
+            your plans in history</Text>
         </View>
       );
     } else {
