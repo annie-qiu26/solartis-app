@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, Image, View } from 'react-native';
+import { StyleSheet, Text, Image, View, Button } from 'react-native';
 import * as firebase from 'firebase';
 
 const styles = StyleSheet.create({
@@ -78,6 +78,10 @@ export default class CreateCustomerScreen extends React.Component {
         <View> 
           <Text style = {styles.title} numberOfLines={10}>Thanks for your payment! We've successfully processed your order. Check out 
             your plans in history</Text>
+          <Button
+            title='History Screen'
+            onPress={()=>this.props.navigation.navigate('History')}
+          />
         </View>
       );
     } else {

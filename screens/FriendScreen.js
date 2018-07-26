@@ -51,90 +51,112 @@ const styles = StyleSheet.create({
   }
 });
 
-<<<<<<< HEAD
 class StoryScreen extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      story: 'Share your Story'
+      story: 'Share your Story',
+      text1: '',
+      text2: '',
+      text3: '',
+      text4: '',
+      text5: '',
+      text6: '',
+      text7: '',
     };
-=======
-export default class FriendScreen extends React.Component {
-  static navigationOptions = {
-    drawerLabel: 'Friend',
-<<<<<<< HEAD
->>>>>>> origin/master
-=======
->>>>>>> 0951e85ad8f658eb8675e9a98ce00896c4048671
->>>>>>> my-temp-work
   };
 
   shareStory = () => {
     var newStory = this.state.story;
     var userID = firebase.auth().currentUser.uid;
-    var storyRef = firebase.database().ref('users/'+userID+'/friends/story');
+    var storyRef = firebase.database().ref('users/'+userID+'/friends');
     storyRef.once('value').then(
       function(snapshot) {
-        var prev = snapshot.val()
-      }).then(
-      function(){
-        if (prev){
+        var prev = snapshot.val();
+        if (prev && prev.story){
           firebase.database().ref('users/'+userID+'/friends').update({
-            story: prev.append(newStory)
+            story: prev.story + newStory + "|"
           })
         }
-        else {
+        if (prev && prev.list){
+          firebase.database().ref('users/'+userID+'/friends').once('value').then(
+            function(snapshot){
+              var friends = snapshot.val();
+              if (friends && friends.list){
+                var count = 0;
+                var friendList = friends.list.split("|");
+                for (var key in friendList){
+                  var uid = friendList[key];
+                  if (uid === "" || uid ===" "){continue;}
+                  var friendStory = firebase.database().ref('users/'+uid+'/friends');
+                  friendStory.once('value').then(
+                    function(snapshot) {
+                      var old = snapshot.val();
+                      if (old && old.otherStory){
+                        firebase.database().ref('users/'+uid+'/friends').update({
+                          otherStory: old.story + newStory + "|"
+                        })
+                      }
+                      else{
+                        firebase.database().ref('users/'+uid+'/friends').update({
+                          otherStory: newStory + "|"
+                        })
+                      }
+                    }
+                  )
+                }
+              }
+            }
+          )
+        }
+        if (!prev || !prev.story) {
           firebase.database().ref('users/'+userID+'/friends').update({
-            story: [newStory]
+            story: newStory + "|"
           })
         }
-        Alert.alert('success');
-      })
-  }
+        Alert.alert('story successfully added');
+      }
+    )
+  };
+
+
 
   refreshStory = () => {
+    var pointer = this;
+    var acc = ['','','','','','',''];
     var userID = firebase.auth().currentUser.uid;
     firebase.database().ref('users/'+userID+'/friends').once('value').then(
       function(snapshot){
         var friends = snapshot.val()
-        if (friends){
-          this.fillFriendsStories(friends)
+        if (friends && friends.otherStory){
+          var count = 0;
+          var storyList = friends.otherStory.split("|");
+          for (var key in storyList){ //reverse
+            if (count > 6){ break}
+            acc[count] = storyList[key];
+            count ++;
+          }
+          console.log("acc",acc);
+          pointer.setState({text1:acc[0]});
+          pointer.setState({text2:acc[1]});
+          pointer.setState({text3:acc[2]});
+          pointer.setState({text4:acc[3]});
+          pointer.setState({text5:acc[4]});
+          pointer.setState({text6:acc[5]});
+          pointer.setState({text7:acc[6]});
         }
       }
     )
   };
 
-  acc = ['','','','','','',''];
-
-  fillFriendsStories = (friends) => {
-    var count = 0;
-    for (var uid in friends){
-      var friendStory = null;
-      if (count > 6){ break}
-      firebase.database().ref('users/'+userID+'/friends').once('value').then(
-        function(snapshot){
-          try{
-            friendStory = snapshot.val().story;
-          }
-          catch(err){}
-          if (friendStory){
-            acc[count] = friendStory;
-            count ++
-          }
-        }
-      )
-    }
-  }
-
   render() {
-    let text1 = this.acc[0];
-    let text2 = this.acc[1];
-    let text3 = this.acc[2];
-    let text4 = this.acc[3];
-    let text5 = this.acc[4];
-    let text6 = this.acc[5];
-    let text7 = this.acc[6];
+    let text1 = this.state.text1;
+    let text2 = this.state.text2;
+    let text3 = this.state.text3;
+    let text4 = this.state.text4;
+    let text5 = this.state.text5;
+    let text6 = this.state.text6;
+    let text7 = this.state.text7;
     return (
       <View style={styles.container}>
         <View style={styles.containerTop}>
@@ -145,7 +167,7 @@ export default class FriendScreen extends React.Component {
             title="Share Story"
             titleStyle={{ fontWeight: "30" }}
             buttonStyle={styles.button}
-            onPress={() => this.shareStory}
+            onPress={() => this.shareStory()}
           />
           <Button
             title="Add Friends"
@@ -160,7 +182,7 @@ export default class FriendScreen extends React.Component {
             title="Refresh Story"
             titleStyle={{ fontWeight: "30" }}
             buttonStyle={styles.button}
-            onPress={() => this.refreshStory}
+            onPress={() => this.refreshStory()}
           />
           <Text>{text1}</Text>
           <Text>{text2}</Text>
@@ -179,46 +201,60 @@ class AddFriendScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      newFriend: 'New Friend User ID'
+      newFriend: "Enter New Friend's User ID"
     };
   }
 
   AddFriend = () => {
-    uid = firebase.auth().currentUser.uid;
-    newFriendID = this.state.newFriend;
-    friendList;
+    var uid = firebase.auth().currentUser.uid;
+    var newFriendID = this.state.newFriend;
     firebase.database().ref('users/'+uid+'/friends').once('value').then(
     function(snapshot){
-      friendList = snapshot.val().list;
-      firebase.database().ref('users/'+uid+'/friends').update({
-        list: friendList.append(newFriendID)
-      })
+      var friendDir = snapshot.val();
+      if (friendDir && friendDir.list){
+        firebase.database().ref('users/'+uid+'/friends').update({
+          list: friendDir.list + newFriendID + "|"
+        })
+      }
+      else{
+        firebase.database().ref('users/'+uid+'/friends').update({
+          list: newFriendID + "|"
+        })
+      }
     })
-    friendListt;
     firebase.database().ref('users/'+newFriendID+'/friends').once('value').then(
     function(snapshot){
-      friendListt = snapshot.val().list;
-      firebase.database().ref('users/'+newFriendID+'/friends').update({
-        list: friendListt.append(uid)
-      })
+      var friendDirr = snapshot.val();
+      if (friendDirr && friendDirr.list){
+        firebase.database().ref('users/'+newFriendID+'/friends').update({
+          list: friendDirr.list + uid + "|"
+        })
+      }
+      else{
+        firebase.database().ref('users/'+newFriendID+'/friends').update({
+          list: uid + "|"
+        })
+      }
     })
+    Alert.alert('Friend Added');
   }
 
   render () {
-    var userID = this.state.uid;
+    const text1 = "Your User ID is .."
+    const userID = firebase.auth().currentUser.uid
     return (
       <View>
-        <Text> Your User ID is </Text>
+        <Text> {text1} </Text>
         <Text> {userID} </Text>
 
-        <TextInput style = {styles.TextInput} onChangeText = {(newFriend) => this.setState({newFriend})}
+        <TextInput autoCapitalize="none" style = {styles.TextInput} onChangeText = {(newFriend) => this.setState({newFriend})}
             value={this.state.newFriend}
           />
         <Button
           title="Add New Friend"
           titleStyle={{ fontWeight: "30" }}
           buttonStyle={styles.button}
-          onPress={() => this.AddFriend}
+          onPress={() => this.AddFriend()}
         />
       </View>
     )
