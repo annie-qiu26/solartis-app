@@ -6,6 +6,8 @@ import CurrentScreen from '../screens/CurrentScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 import ChatScreen from '../screens/ChatScreen';
 import FriendScreen from '../screens/FriendScreen';
+import SettingsScreen from '../screens/SettingsScreen';
+import HomeScreen from '../screens/HomeScreen';
 
 const MainDrawerNavigator = createDrawerNavigator({
   Main: {
@@ -25,6 +27,9 @@ const MainDrawerNavigator = createDrawerNavigator({
   },
   Friend: {
     screen: FriendScreen,
+  },
+  Settings: {
+    screen: SettingsScreen,
   },
 });
 
