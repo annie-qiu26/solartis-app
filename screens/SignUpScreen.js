@@ -85,11 +85,6 @@ export default class SignUpScreen extends React.Component {
       country: country,
       phone: phone
     })
-    firebase.database().ref('users/' + uid +"/friends").set({
-      story: "",
-      list: uid + "|",
-      otherStory: ""
-    })
   }
 
   checkProperties(obj) {
@@ -135,12 +130,12 @@ export default class SignUpScreen extends React.Component {
         <Button 
           title="Signup" 
           color= 'white'
-          onPress={this.onSignupPress()} 
+          onPress={this.onSignupPress} 
         />
         <Button 
           title="Back to Login" 
           color= 'white'
-          onPress={this.onBackToLoginPress()} 
+          onPress={this.onBackToLoginPress} 
         />
 
         </View>
