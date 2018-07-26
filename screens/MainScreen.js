@@ -96,12 +96,6 @@ export default class MainScreen extends React.Component {
           </Text>
         </View>
         <View style = {styles.containerBottom}>
-          <Button
-            title="Sign Out"
-            titleStyle={{ fontWeight: "50" }}
-            buttonStyle={styles.button}
-            containerStyle={{ marginTop: 20 }}
-          />
           <Text style={styles.swipe}>
             {text2}
           </Text>

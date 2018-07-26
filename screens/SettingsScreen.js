@@ -32,6 +32,15 @@ const styles = StyleSheet.create({
     width: null,
     height: null,
     resizeMode: 'cover',
+  },
+  button: {
+    backgroundColor: "rgba(92, 99,216, 1)",
+    width: 300,
+    height: 45,
+    borderColor: "transparent",
+    borderWidth: 0,
+    borderRadius: 5,
+    alignSelf: 'center'
   }
 });
 
@@ -62,15 +71,18 @@ class LogOutScreen extends React.Component {
             {text1}
           </Text>
           <Button
-            color='white'
-            title="Log Out"
+            title="Sign Out"
+            titleStyle={{ fontWeight: "50" }}
+            buttonStyle={styles.button}
+            containerStyle={{ marginTop: 20 }}
             onPress={() => firebase.auth().signOut()}
           />
           <Button
-            color='white'
             title="Update Personal Info"
+            titleStyle={{ fontWeight: "50" }}
+            buttonStyle={styles.button}
             onPress={() => this.props.navigation.navigate('UpdateScreen')}
-          /> 
+          />
         </View>
       </ImageBackground>
     );
