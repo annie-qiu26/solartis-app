@@ -46,14 +46,18 @@ const styles = StyleSheet.create({
 });
 
 export default class PaymentScreen extends React.Component {
-  constructor(props) {
-    super(props);
+    static navigationOptions = {
+        headerTitle: 'Plan Options',
+      };
 
-    this.state = {
-        customer: this.props.navigation.state.params.customer,
-        plan: this.props.navigation.state.params.plan
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            customer: this.props.navigation.state.params.customer,
+            plan: this.props.navigation.state.params.plan
+        }
     }
-  }
 
   checkProperties(obj) {
     for (let key in obj) {
@@ -63,51 +67,50 @@ export default class PaymentScreen extends React.Component {
     return true;
   }
 
-  onSubmit = () => {
-    const value = this._form.getValue();
+    onSubmit = () => {
+        const value = this._form.getValue();
 
-    if (value == null || !this.checkProperties(value)) {
-      return;
+        if (value == null || !this.checkProperties(value)) {
+        return;
+        }
+
+        this.props.navigation.navigate('CreateCustomer', {
+            customer: this.state.customer,
+            plan: this.state.plan,
+            payment: {
+                card: value.card,
+                cvv: value.cvv,
+                expiryMonth: value.expiryMonth,
+                expiryYear: value.expiryYear,
+                payMethod: value.payMethod,
+                cardType: value.cardType
+            }
+        })
     }
 
-    this.props.navigation.navigate('CreateCustomer', {
-        createCustomer: '1',
-        customer: this.state.customer,
-        plan: this.state.plan,
-        payment: {
-          card: value.card,
-          cvv: value.cvv,
-          expiryMonth: value.expiryMonth,
-          expiryYear: value.expiryYear,
-          payMethod: value.payMethod,
-          cardType: value.cardType
-        }
-      })
-  }
+    render() {
+        return (
+        <ImageBackground source={require('../assets/images/waters.jpg')}
+            imageStyle={{resizeMode: 'stretch'}}
+            style={styles.container}
+        >
+            <View style={styles.container}>
+            <Form 
+            ref={c => this._form = c}
+            type={User} 
+            options={options}
+            /> 
 
-  render() {
-    return (
-      <ImageBackground source={require('../assets/images/waters.jpg')}
-        imageStyle={{resizeMode: 'stretch'}}
-        style={styles.container}
-      >
-        <View style={styles.container}>
-        <Form 
-          ref={c => this._form = c}
-          type={User} 
-          options={options}
-        /> 
+            <Button
+            title="Submit Information"
+            titleStyle={{ fontWeight: "50" }}
+            buttonStyle={styles.button}
+            containerStyle={{ marginTop: 20 }}
+            onPress={this.onSubmit}
+            />
 
-        <Button
-          title="Submit Information"
-          titleStyle={{ fontWeight: "50" }}
-          buttonStyle={styles.button}
-          containerStyle={{ marginTop: 20 }}
-          onPress={this.onSubmit}
-        />
-
-        </View>
-      </ImageBackground>
-    );
-  }
+            </View>
+        </ImageBackground>
+        );
+    }
 }

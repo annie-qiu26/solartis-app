@@ -1,11 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text } from 'react-native';
+import * as firebase from 'firebase';
 import CreateCustomer from '../utils/CreateCustomer';
 
 export default class CustomerInfo extends React.Component {
     constructor(props) {
       super(props);
+
+      this.state = {
+        customer: {}
+      }
     }
   
     componentWillMount() {
@@ -16,23 +20,16 @@ export default class CustomerInfo extends React.Component {
       this.setState({ renter_start_date,
         renter_end_date, renter_cars, destination, effective_date, depart_date,
         return_date, plan_type, trip_cancellation, plan_name });
+    
+        firebase.database().ref('users/' + firebase.auth().currentUser.uid).on('value', snapshot => {
+          this.setState({customer: snapshot.val()});
+        });
     }
   
     render() {
       return (
         <CreateCustomer
-            customer = {{
-                firstName: this.state.first_name,
-                lastName: this.state.last_name,
-                dob: this.state.dob,
-                address: this.state.address_1,
-                city: this.state.city,
-                state: this.state.state,
-                zipCode: this.state.zipcode,
-                country: 'United States',
-                phone: this.state.phone_number,
-                email: this.state.email_address
-            }}
+            customer = {this.state.customer}
             plan = {{
                 destination: this.state.destination,
                 departDate: this.state.depart_date,

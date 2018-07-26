@@ -29,12 +29,6 @@ const styles = StyleSheet.create({
 export default class HistoryScreen extends React.Component {
   static navigationOptions = {
     drawerLabel: 'History',
-    drawerIcon: ({ tintColor }) => (
-      <Image
-        source={require('../assets/images/waters.jpg')}
-        style={[styles.tabIcon, {tintColor: tintColor}]}
-      />
-    ),
   };
 
   render() {

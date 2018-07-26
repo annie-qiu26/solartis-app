@@ -27,12 +27,6 @@ const styles = StyleSheet.create({
 export default class FriendScreen extends React.Component {
   static navigationOptions = {
     drawerLabel: 'Friend',
-    drawerIcon: ({ tintColor }) => (
-      <Image
-        source={require('../assets/images/annie.png')}
-        style={[styles.tabIcon, {tintColor: tintColor}]}
-      />
-    ),
   };
 
   render() {

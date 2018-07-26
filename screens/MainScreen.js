@@ -66,12 +66,6 @@ const styles = StyleSheet.create({
 export default class MainScreen extends React.Component {
   static navigationOptions = {
     drawerLabel: 'Main',
-    drawerIcon: ({ tintColor }) => (
-      <Image
-        source={require('../assets/images/annie.png')}
-        style={[styles.tabIcon, {tintColor: tintColor}]}
-      />
-    ),
   };
 
   state = { currentUser: null}

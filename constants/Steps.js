@@ -4,15 +4,20 @@ import CustomerInfo from '../components/CustomerInfo';
 export default [
         {
           id: '0',
-          message: 'Hi! Are you looking to buy travel insurance?',
+          message: 'Hi! Wanna check the rate of your insurance?',
           trigger: 'start',
         },
         {
           id: 'start',
           options: [
-            { value: 'yes', label: 'Yes', trigger: '1' },
-            { value: 'no', label: 'No', trigger: '14' },
+            { value: 'yes', label: 'Yes', trigger: '14' },
+            { value: 'no', label: 'No', trigger: '2' },
           ],
+        },
+        {
+          id: '2',
+          message: 'In that case, let me tell you more about travel insurance',
+          trigger: 'info',
         },
         {
           id: '14',
@@ -162,13 +167,13 @@ export default [
           message: 'Not to be pessimistic, but let\'s say you end up getting food poisoning all of a sudden. You could pay a couple thousand dollars ' +
           'for your medical bills or let Solartis take care of it. Or what if your layover got cancelled, and you can\'t make it to your destination. We all know ' 
           + 'that airlines don\'t provide the best support for these situtations, so you might have to drop another couple hundred to get a last-minute ' +
-          'ticket to get to the right place or just let us pay for it. Whatever the emergency is, Solartis will have you covered. Are you ready to buy insurance?',
+          'ticket to get to the right place or just let us pay for it. Whatever the emergency is, Solartis will have you covered. Do you want to check your rate now?',
           trigger: 'final-options',
         },
         {
           id: 'final-options',
           options: [
-            { value: 'yes', label: 'Yes', trigger: '1' },
+            { value: 'yes', label: 'Yes', trigger: '14' },
             { value: 'no', label: 'No', trigger: 'end' },
           ],
         },

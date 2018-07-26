@@ -72,13 +72,19 @@ const styles = StyleSheet.create({
 });
 
 export default class SignUpScreen extends React.Component {
+  static navigationOptions = {
+    headerTitle: 'Travel Options',
+  };
+
   constructor(props) {
     super(props);
 
     this.state = {
       customer: {}
     }
+  }
 
+  componentDidMount() {
     firebase.database().ref('users/' + firebase.auth().currentUser.uid).on('value', snapshot => {
       this.setState({customer: snapshot.val()});
     });
