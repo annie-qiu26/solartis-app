@@ -38,23 +38,11 @@ export default class HistoryScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      customer: {}
+      promiseIsResolved: false
     }
   }
 
-  componentWillMount() {
-    firebase.database().ref('users/' + firebase.auth().currentUser.uid).on('value', snapshot => {
-      this.setState({customer: snapshot.val()});
-      this.addData();
-      this.setState({
-        promiseIsResolved: true
-      })
-    })
-  }
-  
-
-  addData = () => {
-    statements = this.state.customer.statements;
+  addData = (statements) => {
     data = [];
 
     for (let key in statements) {
@@ -67,6 +55,16 @@ export default class HistoryScreen extends React.Component {
     this.setState({
       dataSource: data
     });
+
+  }
+
+  componentDidMount() {
+    firebase.database().ref('users/' + firebase.auth().currentUser.uid).on('value', snapshot => {
+      this.addData(snapshot.val().statements);
+      this.setState({
+        promiseIsResolved: true
+      })
+    })
   }
 
   render() {
