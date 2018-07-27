@@ -21,6 +21,7 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.anniebpek.solartis",
       "supportsTablet": true
     }
   }
