@@ -85,6 +85,11 @@ export default class SignUpScreen extends React.Component {
       country: country,
       phone: phone
     })
+    firebase.database().ref('users/' + uid + '/friends').set({
+      list: uid + "|",
+      story: "",
+      otherStory: "",
+    })
   }
 
   checkProperties(obj) {

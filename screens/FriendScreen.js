@@ -5,7 +5,8 @@ import {
   Image,
   View,
   TextInput,
-  Alert
+  Alert,
+  ImageBackground,
 } from 'react-native';
 
 import { Button } from 'react-native-elements';
@@ -76,46 +77,44 @@ class StoryScreen extends React.Component {
         var prev = snapshot.val();
         if (prev && prev.story){
           firebase.database().ref('users/'+userID+'/friends').update({
-            story: prev.story + newStory + "|"
+            story: prev.story + newStory + "|",
+            otherStory: prev.otherStory + newStory + "|",
           })
         }
         if (prev && prev.list){
-          firebase.database().ref('users/'+userID+'/friends').once('value').then(
-            function(snapshot){
-              var friends = snapshot.val();
-              if (friends && friends.list){
-                var count = 0;
-                var friendList = friends.list.split("|");
-                for (var key in friendList){
-                  var uid = friendList[key];
-                  if (uid === "" || uid ===" "){continue;}
-                  var friendStory = firebase.database().ref('users/'+uid+'/friends');
-                  friendStory.once('value').then(
-                    function(snapshot) {
-                      var old = snapshot.val();
-                      if (old && old.otherStory){
-                        firebase.database().ref('users/'+uid+'/friends').update({
-                          otherStory: old.story + newStory + "|"
-                        })
-                      }
-                      else{
-                        firebase.database().ref('users/'+uid+'/friends').update({
-                          otherStory: newStory + "|"
-                        })
-                      }
-                    }
-                  )
+          var friendList = prev.list.split("|");
+          for (var key in friendList){
+            var uid = friendList[key];
+            uid = uid.trim();
+            console.log("key, uid", key, uid);
+            if (uid === "" || uid ===" "){continue;}
+            var friendStory = firebase.database().ref('users/'+uid+'/friends');
+            friendStory.once('value').then(
+              function(snapshott) {
+                console.log("entered second firebase");
+                var other = snapshott.val();
+                if (other && other.otherStory){
+                  console.log("entered if")
+                  firebase.database().ref('users/'+uid+'/friends').update({
+                    otherStory: other.otherStory + newStory + "|",
+                  })
+                }
+                else{
+                  console.log("cannot call nested firebase");
+                  firebase.database().ref('users/'+uid+'/friends').update({
+                    otherStory: newStory + "|",
+                  })
                 }
               }
-            }
-          )
+            )
+          }
         }
         if (!prev || !prev.story) {
           firebase.database().ref('users/'+userID+'/friends').update({
             story: newStory + "|"
           })
         }
-        Alert.alert('story successfully added');
+        Alert.alert('Story successfully added');
       }
     )
   };
@@ -132,7 +131,7 @@ class StoryScreen extends React.Component {
         if (friends && friends.otherStory){
           var count = 0;
           var storyList = friends.otherStory.split("|");
-          for (var key in storyList){ //reverse
+          for (var key = storyList.length - 1; key >= 0; key --){ //reverse
             if (count > 6){ break}
             acc[count] = storyList[key];
             count ++;
@@ -159,41 +158,44 @@ class StoryScreen extends React.Component {
     let text6 = this.state.text6;
     let text7 = this.state.text7;
     return (
-      <View style={styles.container}>
-        <View style={styles.containerTop}>
-          <TextInput style = {styles.TextInput} onChangeText = {(story) => this.setState({story})}
-            value={this.state.story}
-          />
-          <Button
-            title="Share Story"
-            titleStyle={{ fontWeight: "30" }}
-            buttonStyle={styles.button}
-            onPress={() => this.shareStory()}
-          />
-          <Button
-            title="Add Friends"
-            titleStyle={{ fontWeight: "30" }}
-            buttonStyle={styles.button}
-            onPress={() => this.props.navigation.navigate('AddFriendScreen')}
-          />
-        </View>
-        <View style={styles.containerBottom}>
-          <Text style={styles.Text}>Friends' Story</Text>
-          <Button
-            title="Refresh Story"
-            titleStyle={{ fontWeight: "30" }}
-            buttonStyle={styles.button}
-            onPress={() => this.refreshStory()}
-          />
-          <Text>{text1}</Text>
-          <Text>{text2}</Text>
-          <Text>{text3}</Text>
-          <Text>{text4}</Text>
-          <Text>{text5}</Text>
-          <Text>{text6}</Text>
-          <Text>{text7}</Text>
-        </View>
-      </View>
+      <ImageBackground source={require('../assets/images/hotballoons.jpg')}
+        resizeMode = 'stretch'
+        style={styles.container}
+      >
+          <View style={styles.containerTop}>
+            <TextInput style = {styles.TextInput} onChangeText = {(story) => this.setState({story})}
+              value={this.state.story}
+            />
+            <Button
+              title="Share Story"
+              titleStyle={{ fontWeight: "30" }}
+              buttonStyle={styles.button}
+              onPress={() => this.shareStory()}
+            />
+            <Button
+              title="Add Friends"
+              titleStyle={{ fontWeight: "30" }}
+              buttonStyle={styles.button}
+              onPress={() => this.props.navigation.navigate('AddFriendScreen')}
+            />
+          </View>
+          <View style={styles.containerBottom}>
+            <Text style={styles.Text}>Friends' Stories</Text>
+            <Button
+              title="Refresh Story"
+              titleStyle={{ fontWeight: "30" }}
+              buttonStyle={styles.button}
+              onPress={() => this.refreshStory()}
+            />
+            <Text>{text1}</Text>
+            <Text>{text2}</Text>
+            <Text>{text3}</Text>
+            <Text>{text4}</Text>
+            <Text>{text5}</Text>
+            <Text>{text6}</Text>
+            <Text>{text7}</Text>
+          </View>
+      </ImageBackground>
     );
   }
 }
@@ -209,6 +211,7 @@ class AddFriendScreen extends React.Component {
   AddFriend = () => {
     var uid = firebase.auth().currentUser.uid;
     var newFriendID = this.state.newFriend;
+
     firebase.database().ref('users/'+uid+'/friends').once('value').then(
     function(snapshot){
       var friendDir = snapshot.val();
@@ -219,10 +222,11 @@ class AddFriendScreen extends React.Component {
       }
       else{
         firebase.database().ref('users/'+uid+'/friends').update({
-          list: newFriendID + "|"
+          list: uid + "|" + newFriendID + "|"
         })
       }
     })
+
     firebase.database().ref('users/'+newFriendID+'/friends').once('value').then(
     function(snapshot){
       var friendDirr = snapshot.val();
@@ -233,7 +237,7 @@ class AddFriendScreen extends React.Component {
       }
       else{
         firebase.database().ref('users/'+newFriendID+'/friends').update({
-          list: uid + "|"
+          list: newFriendID + "|" + uid + "|"
         })
       }
     })
@@ -244,7 +248,10 @@ class AddFriendScreen extends React.Component {
     const text1 = "Your User ID is .."
     const userID = firebase.auth().currentUser.uid
     return (
-      <View>
+    <ImageBackground source={require('../assets/images/hotballoons.jpg')}
+      resizeMode = 'stretch'
+      style={styles.container}
+    >
         <Text> {text1} </Text>
         <Text> {userID} </Text>
 
@@ -257,7 +264,7 @@ class AddFriendScreen extends React.Component {
           buttonStyle={styles.button}
           onPress={() => this.AddFriend()}
         />
-      </View>
+    </ImageBackground>
     )
   }
 }
